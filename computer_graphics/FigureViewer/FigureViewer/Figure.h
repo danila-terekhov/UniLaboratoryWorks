@@ -20,7 +20,7 @@ public:
 		GetClientRect(WindowFromDC(dc), &r);
 	//	Rectangle(dc, 0, 0, r.right, r.bottom);
         HRGN bgRgn = CreateRectRgnIndirect(&r);
-        HBRUSH hBrush = CreateSolidBrush(RGB(200,200,200));
+        HBRUSH hBrush = CreateSolidBrush(RGB(255,255,255));
         FillRgn(dc, bgRgn, hBrush);
 	}
 	virtual void Draw(HDC dc) = 0;

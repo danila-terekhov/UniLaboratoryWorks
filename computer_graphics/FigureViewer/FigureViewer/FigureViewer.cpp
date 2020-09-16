@@ -2,6 +2,10 @@
 #include <windowsx.h>
 #include "Sight.h"
 
+const int N = 1; // number of figures
+Figure *figures[N];
+Figure* active;
+int c;
 LRESULT _stdcall WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);						// прототип оконной процедуры
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)		// основная процедура
 {
@@ -26,11 +30,16 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		200, 200, 400, 400,							// координаты на экране левого верхнего угла окна, его ширина и высота
 		nullptr, nullptr, hInstance, nullptr);
 
+	figures[0] = new Sight(10);
+//	figures[1] = new Bricket(10);
+	figures[c]->SetColor(255);
+	active = figures[0];
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
 	// Вторая составляющая часть основной процедуры - основной цикл обработки системных сообщений, который ожидает сообщения и рассылает их соответствующим окнам
 	MSG msg;
+
 	while (GetMessage(&msg, nullptr, 0, 0))				// функция GetMessage выбирает из очереди сообщение и заносит его в структуру msg
 	{
 		TranslateMessage(&msg);
@@ -42,11 +51,10 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 // В основном модуле объявляется только одна глобальная переменная - создаётся объект класса Sight
 // Все дальнейшие действия осуществляются посредством обращения к методам, реализованным в этом классе
-Bricket sight(10);
+
 
 LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// оконная процедура принимает и обрабатывает все сообщения, отправленные окну
 {
-	sight.SetColor(255, 0, 0);
 	HDC dc = GetDC(hWnd);
 	RECT r;
 	GetClientRect(WindowFromDC(dc), &r);
@@ -54,11 +62,12 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	{
 	case WM_PAINT:						// системное сообщение WM_PAINT генерируется всякий раз, когда требуется отрисовка или перерисовка изображения
 	{
-		SetBkColor(dc, RGB(255,0,0));
+		//SetBkColor(dc, RGB(255,0,0));
 
 
-		sight.Clear(dc);
-		sight.Draw(dc);
+		active->Clear(dc);
+		for (int i = 0; i < N; i++)
+			figures[i]->Draw(dc);
 		ReleaseDC(hWnd, dc);		// функция ReleaseDC сообщает системе, что связанный с окном hWnd контекст dc больше не нужен
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
@@ -68,22 +77,30 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		{
 		case VK_LEFT:
 		{
-			sight.Move(-2, 0, r.right, r.bottom);
+			active->Move(-2, 0, r.right, r.bottom);
 			break;
 		}
 		case VK_RIGHT:
 		{
-			sight.Move(2, 0, r.right, r.bottom);
+			active->Move(2, 0, r.right, r.bottom);
 			break;
 		}
 		case VK_DOWN:
 		{
-			sight.Move(0, -2, r.right, r.bottom);
+			active->Move(0, -2, r.right, r.bottom);
 			break;
 		}
 		case VK_UP:
 		{
-			sight.Move(0, 2, r.right, r.bottom);
+			active->Move(0, 2, r.right, r.bottom);
+			break;
+		}
+		case VK_TAB:
+		{
+			active->SetColor(0, 0, 0);
+			c = 1 - c;
+			active = figures[c];
+			active->SetColor(255, 0, 0);
 			break;
 		}
 		default:
@@ -102,34 +119,34 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 
 		int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 		int c_key = GET_KEYSTATE_WPARAM(wParam) & MK_CONTROL ; 
-		sight.Resize(P, delta, c_key, r.right, r.bottom);
+		active->Resize(P, delta, c_key, r.right, r.bottom);
 
 		InvalidateRect(hWnd, nullptr, false);
 		break;
 	}
 	case WM_RBUTTONDOWN:
 	{
-		sight.MoveTo(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), r.right, r.bottom);
+		active->MoveTo(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), r.right, r.bottom);
 		InvalidateRect(hWnd, nullptr, false);
 		break;
 	}
 	case WM_LBUTTONDOWN:
 	{
-		sight.StartDragging(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		active->StartDragging(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 	}
 	case WM_MOUSEMOVE:
 	{
-		if (sight.IsDragging())
+		if (active->IsDragging())
 		{
-			sight.Drag(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), r.right, r.bottom);
+			active->Drag(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), r.right, r.bottom);
 			InvalidateRect(hWnd, nullptr, false);
 		}
 		break;
 	}
 	case WM_LBUTTONUP:
 	{
-		sight.StopDragging();
+		active->StopDragging();
 		break;
 	}
 	case WM_SIZE:
