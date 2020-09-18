@@ -2,9 +2,9 @@ from random import *
 
 def non_zero_randfloat(rang):
     while True:
-        x = randint(-rang, rang)
+        x = round(uniform(-rang,rang), 2)
         if x:
-            return float(x)
+            return x
 
 def randlist_wo_zero(size, rang):
     a = [non_zero_randfloat(rang) for _ in range(size)]
@@ -38,10 +38,21 @@ class Matrix:
             if i<self.n-2:
                 matrix[i][i+1] = self.c[i]
             print(matrix[i]," | ", self.f[i])
+        return matrix
 
     def calculation(self):
 
         n = self.n
+
+        A = self.show()
+        #xv = [1.0 for _ in range(n)]
+        fv = []
+        for i in range(n):
+            fv.append(sum(A[i]))
+        print("fv=",fv)
+
+        self.f = fv
+
 
         tmp = self.c[0]
         self.c[0] = 0.0
@@ -53,7 +64,7 @@ class Matrix:
             self.q[i] *= R
             if i < n-2:
                 self.c[i] *= R # TODO maybe error at last iteration
-            else: 
+            else:
                 self.c[i] = self.q[i]
 
             R = self.a[i+1] ; self.a[i+1] = 0.0
@@ -104,10 +115,19 @@ class Matrix:
 
         return x
 
-m = Matrix()
-x = m.calculation()
-m.show()
-print(x)
+count_succes=0
+while count_succes<1:
+    m = Matrix(60,6)
+    m.show()
+    count_succes+=1
+#    try:
+#        x = m.calculation()
+#    except :
+#        continue
+#    else:
+#        count_succes += 1
+#        print(count_succes)
 
+print("x=",Matrix().calculation())
 
 
