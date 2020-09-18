@@ -26,6 +26,8 @@ do
 			;;
 		[c]*)	echo "compressing to ${i}.tar.gz ..."
 			# tar czf ${i}.tar.gz $i
+			zip ${i}.zip ${i}
+			rm ${i}
 			echo "Compressed file: $i" >> ${HOME}/.cache/mds.log
 			;;
 		*) echo "File skipped..."
