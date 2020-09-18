@@ -2,9 +2,9 @@ from random import *
 
 def non_zero_randfloat(rang):
     while True:
-        x = randint(-rang, rang)
+        x = round(uniform(-rang,rang), 2)
         if x:
-            return float(x)
+            return x
 
 def randlist_wo_zero(size, rang):
     a = [non_zero_randfloat(rang) for _ in range(size)]
@@ -38,55 +38,96 @@ class Matrix:
             if i<self.n-2:
                 matrix[i][i+1] = self.c[i]
             print(matrix[i]," | ", self.f[i])
+        return matrix
 
     def calculation(self):
 
         n = self.n
 
-        for i in range(1,n-1):
+        A = self.show()
+        #xv = [1.0 for _ in range(n)]
+        fv = []
+        for i in range(n):
+            fv.append(sum(A[i]))
+        print("fv=",fv)
+
+        self.f = fv
+
+
+        tmp = self.c[0]
+        self.c[0] = 0.0
+
+        for i in range(1, n-1):
             R = self.b[i]**-1 ; self.b[i] = 1.0
-            self.c[i] *= R ; self.p[i] *= R ; self.q[i] *= R ; self.f[i] *= R
-            R = self.a[i+1] ;# self.a[i+1] = 0.0
-            self.a[i+1] -= R*self.b[i]
-            self.b[i+1] -= R*self.c[i]
-            self.f[i+1] -= R*self.f[i]
-            self.p[i+1] -= R*self.p[i]
-            self.q[i+1] -= R*self.q[i]
+            self.p[i] *= R
+            self.f[i] *= R
+            self.q[i] *= R
+            if i < n-2:
+                self.c[i] *= R # TODO maybe error at last iteration
+            else:
+                self.c[i] = self.q[i]
 
-        self.c[n-1] = self.q[n-1]
-        #R = self.b[n-3]**-1 ; self.b[n-3] = 1.0
+            R = self.a[i+1] ; self.a[i+1] = 0.0
+            self.p[i+1] -= self.p[i]*R
+            self.f[i+1] -= self.f[i]*R
+            self.q[i+1] -= self.q[i]*R
+            if i+1 < n-1:
+                self.b[i+1] -= self.c[i]*R
+            else:
+                self.b[i+1] = self.q[i+1]
+            if i+1 == n-1:
+                self.c[i+1] = self.q[i+1]
 
-        print (self.c[n-2], self.q[n-2])
-#        self.p[n-1] /= self.q[n-1] ; self.f[n-1] /= self.q[n-1] ; self.q[n-1] = 1
+            self.q[0] -= self.q[i]*R
+            self.p[0] -= self.p[i]*R
+            self.f[0] -= self.f[i]*R
+            #tmp -= self.b[i]*tmp = 0
+            if i < n-2:
+                tmp = -self.c[i] * tmp
 
-#        for i in range(n//2-1, -1, -1):
-#            if self.b[i]:
-#                R = self.b[i]**-1 ; self.b[i] = 1.0
-#                self.a[i] *= R ; self.p[i] *= R ; self.q[i] *= R ; self.f[i] *= R
-#            if self.c[i-1]:
-#                R = self.c[i-1] ; self.c[i-1] = 0.0
-#                self.b[i-1] -= R*self.a[i]
-#                self.f[i-1] -= R*self.f[i]
-#                self.p[i-1] -= R*self.p[i]
-#                self.q[i-1] -= R*self.q[i]
-#
-#        for i in range(1,n):
-#            if self.p[i] != 0:
-#                R = self.p[i] ; self.p[i] = 0.0
-#                self.f[i] -= R*self.f[0]
-#                self.q[i] -= R*self.q[0]
-#
-#        R = self.q[n-1]**-1; self.q[n-1] = 1.0
-#        self.f[n-1] *= R
-#        for i in range(n-2,-1,-1):
-#            if self.q[i] != 0:
-#                R = self.q[i] ; self.q[i] = 0.0
-#                self.f[i] -= R*self.f[n-1]
+        self.q[0] /= self.p[0] ; self.f[0] /= self.p[0]
+        self.p[0] = self.b[0] = 1.0
 
+        for i in range(1,n):
+            self.q[i] -= self.q[0]*self.p[i]
+            self.f[i] -= self.f[0]*self.p[i]
+            self.p[i] = 0.0
 
-m = Matrix()
-m.calculation()
-m.show()
+        self.a[1] = self.p[1]
 
+        self.f[n-1] /= self.q[n-1]
+        self.q[n-1] = self.b[n-1] = 1.0
+
+        for i in range(n-2,-1,-1):
+            self.f[i] -= self.f[n-1] * self.q[i]
+            self.q[i] = 0.0
+
+        self.c[n-2] = self.q[n-2]
+
+        x = [0.0 for _ in range(0,n)]
+
+        x[0] = self.f[0]
+        x[n-2] = self.f[n-2]
+        x[n-1] = self.f[n-1]
+
+        for i in range(n-3, 0, -1):
+            x[i] = self.f[i] - self.c[i]*x[i+1]
+
+        return x
+
+count_succes=0
+while count_succes<1:
+    m = Matrix(60,6)
+    m.show()
+    count_succes+=1
+#    try:
+#        x = m.calculation()
+#    except :
+#        continue
+#    else:
+#        count_succes += 1
+#        print(count_succes)
+
+print("x=",Matrix().calculation())
 
 
