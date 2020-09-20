@@ -2,8 +2,8 @@ package Lab1;
 
 public class MyContainer<E> {
 	private int size;
-	private int total = 0;
-	final int step=5;
+	private int total = -1;
+	final int step = 5;
 	private Object[] array;
 
 	public MyContainer(int size) {
@@ -25,19 +25,39 @@ public class MyContainer<E> {
 		final E e = (E)array[i];
 		return e;
 	}
+	public E getFirst() {
+		@SuppressWarnings("unchecked")
+		final E e = (E)array[0];
+		return e;
+	}
+	public E getLast() {
+		@SuppressWarnings("unchecked")
+		final E e = (E)array[total];
+		return e;
+	}
 	public void set(int i, E e) {
 		if (i < total)
 			array[i] = e;
 		else
 			System.out.println("There is no such element.");
 	}
+	public int getTotal() {
+		return total+1;
+	}
+	public int getSize(){
+		return size;
+	}
+	public void setSize(int size){
+		resize(size);
+	}
+
 	public void add(E e) {
-		array[total++] = e;
-		if (total == size) resize();
+		array[++total] = e;
+		if (total+1 == size) resize(size + step);
 	}
 
 	public void delete(int i) {
-		if (i < total) {
+		if (i <= total) {
 			--total;
 			for (; i < total ; i++)
 				array[i] = array[i+1];
@@ -46,15 +66,18 @@ public class MyContainer<E> {
 			System.out.println("Wrong index.");
 	}
 
-	private void resize() {
-		int newSize = size + step;
+	private void resize(int newSize) {
+		int bound;
+		if (newSize < size) { // cut a part of array
+			bound = newSize;
+			total = newSize-1;
+		} else {
+			bound = size;
+		}
 		Object[] newArray = new Object[newSize];
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < bound; i++)
 			newArray[i] = array[i];
 		array = newArray;
 		size = newSize;
 	}
-
 }
-
-
