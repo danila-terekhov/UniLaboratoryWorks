@@ -33,7 +33,7 @@ class Matrix:
             matrix[i][0] = self.p[i]
             matrix[i][self.n-1]= self.q[i]
             matrix[i][i] = self.b[i]
-            if i>0:
+            if i>1:
                 matrix[i][i-1] = self.a[i]
             if i<self.n-2:
                 matrix[i][i+1] = self.c[i]
@@ -115,11 +115,12 @@ class Matrix:
 
         return x
 
-count_succes=0
-while count_succes<1:
-    m = Matrix(60,6)
-    m.show()
-    count_succes+=1
+Matrix(10,10).show()
+#count_succes=0
+#while count_succes<1:
+#    m = Matrix(60,6)
+#    m.show()
+#    count_succes+=1
 #    try:
 #        x = m.calculation()
 #    except :

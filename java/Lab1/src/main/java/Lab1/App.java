@@ -13,5 +13,28 @@ public class App {
 	MyContainer<Integer> var = new MyContainer<Integer>(10);
 	var.add(2);
         System.out.println(var.get(0));
+	for (int i=0; i<10; i++)
+		var.add(i);
+        System.out.println(var.getTotal());
+        System.out.println(var.getSize());
+	var.show();
+	var.setSize(3);
+        System.out.println(var.getTotal());
+        System.out.println(var.getSize());
+	var.show();
+	var.add(4);
+        System.out.println(var.getTotal());
+        System.out.println(var.getSize());
+	var.show();
+	var.setSize(0);
+        System.out.println(var.getTotal());
+        System.out.println(var.getSize());
+	var.show();
+	var.get(0);
+	var.get(1);
+	var.add(23);
+	System.out.println(var.get(0));
+	var.get(1);
+
     }
 }

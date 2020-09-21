@@ -16,11 +16,15 @@ public class MyContainer<E> {
 			System.out.println("Container is empty!");
 			return;
 		}
-		for (int i = 0; i < total ; i++)
-			System.out.print(array[i]);
+		for (int i = 0; i <= total ; i++)
+			System.out.printf("%d%s",array[i], i<total?",":".");
 		System.out.println();
 	}
 	public E get(int i) {
+		if (i > total) {
+			System.out.println("There is no such element");
+			return null;
+		}
 		@SuppressWarnings("unchecked")
 		final E e = (E)array[i];
 		return e;
@@ -52,8 +56,8 @@ public class MyContainer<E> {
 	}
 
 	public void add(E e) {
-		array[++total] = e;
 		if (total+1 == size) resize(size + step);
+		array[++total] = e;
 	}
 
 	public void delete(int i) {
@@ -67,16 +71,17 @@ public class MyContainer<E> {
 	}
 
 	private void resize(int newSize) {
-		int bound;
+		int length;
 		if (newSize < size) { // cut a part of array
-			bound = newSize;
+			length = newSize;
 			total = newSize-1;
 		} else {
-			bound = size;
+			length = size;
 		}
 		Object[] newArray = new Object[newSize];
-		for (int i = 0; i < bound; i++)
-			newArray[i] = array[i];
+		System.arraycopy(array, 0, newArray, 0, length);
+		//for (int i = 0; i < length; i++)
+			//newArray[i] = array[i];
 		array = newArray;
 		size = newSize;
 	}
