@@ -2,7 +2,7 @@
 #include <windowsx.h>
 #include "Sight.h"
 
-const int N = 1; // number of figures
+const int N = 2; // number of figures
 Figure *figures[N];
 Figure* active;
 int c;
@@ -31,7 +31,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		nullptr, nullptr, hInstance, nullptr);
 
 	figures[0] = new Sight(10);
-//	figures[1] = new Bricket(10);
+	figures[1] = new Bricket(10);
 	figures[c]->SetColor(255);
 	active = figures[0];
 	ShowWindow(hWnd, nCmdShow);

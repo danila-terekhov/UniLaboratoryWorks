@@ -27,7 +27,7 @@ public:
 	}
 };
 
-#endif SIGHT_H
+
 
 class Bricket : public Figure
 {
@@ -75,3 +75,4 @@ public:
 	}
 
 };
+#endif SIGHT_H
