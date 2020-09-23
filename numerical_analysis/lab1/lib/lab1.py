@@ -12,11 +12,9 @@ def randlist_wo_zero(size, rang):
     return a
 
 def find_v(A,f):
-    A = np.array(A)
-    A = np.linalg.inv(A)
+    A = np.linalg.inv(np.array(A))
     f = np.array(f)
-    x = A.dot(f)
-    return x.tolist()
+    return A.dot(f).tolist()
 
 class Matrix:
 
@@ -31,8 +29,8 @@ class Matrix:
         self.a[0] = self.c[self.n-1] = 0.0
         self.p[0] = self.b[0]
         self.p[1] = self.a[1]
-        self.q[self.n-1] = self.b[self.n-1]
         self.q[self.n-2] = self.c[self.n-2]
+        self.q[self.n-1] = self.b[self.n-1]
 
 
     def show(self):
@@ -51,7 +49,6 @@ class Matrix:
     def calculation(self):
 
         n = self.n
-
         A = self.show()
 
         #xv = [1.0 for _ in range(n)]
@@ -62,39 +59,40 @@ class Matrix:
         tmp = self.c[0]
         self.c[0] = 0.0
 
-        for i in range(1, n-1):
-            R = self.b[i]**-1 ; self.b[i] = 1.0
-            self.p[i] *= R
-            self.f[i] *= R
+        # STEP 1
+        for i in range(1, n-1): # don't include n-1 column
+            R = 1/self.b[i] ; self.b[i] = 1.0
+            self.p[i] *= R; self.q[i] *= R; self.f[i] *= R
             fv[i] *= R
-            self.q[i] *= R
             if i < n-2:
-                self.c[i] *= R # TODO maybe error at last iteration
-            else:
+                self.c[i] *= R
+            else: # if i == n-2:
                 self.c[i] = self.q[i]
 
             R = self.a[i+1] ; self.a[i+1] = 0.0
             self.p[i+1] -= self.p[i]*R
+            self.q[i+1] -= self.q[i]*R
             self.f[i+1] -= self.f[i]*R
             fv[i+1] -= fv[i]*R
-            self.q[i+1] -= self.q[i]*R
-            if i+1 < n-1:
+            if i < n-2:
                 self.b[i+1] -= self.c[i]*R
-            else:
-                self.b[i+1] = self.q[i+1]
-            if i+1 == n-1:
-                self.c[i+1] = self.q[i+1]
+            else: # if i == n-2:
+                self.c[n-2] = self.q[n-2]
+                self.b[n-1] = self.q[n-1]
 
-            self.q[0] -= self.q[i]*tmp
             self.p[0] -= self.p[i]*tmp
+            self.q[0] -= self.q[i]*tmp
             self.f[0] -= self.f[i]*tmp
             fv[0] -= fv[i]*tmp
             #tmp -= self.b[i]*tmp = 0
             if i < n-2:
                 tmp = -self.c[i] * tmp
 
-        self.q[0] /= self.p[0] ; self.f[0] /= self.p[0] ; fv[0] /= self.p[0]
-        self.p[0] = self.b[0] = 1.0
+        # STEP 2
+        R = 1/self.p[0]; self.p[0] = 1.0
+        self.q[0] *= R; self.f[0] *= R;
+        fv[0] *= R
+        self.b[0] = self.p[0]
 
         for i in range(1,n):
             self.q[i] -= self.q[0]*self.p[i]
@@ -104,6 +102,7 @@ class Matrix:
 
         self.a[1] = self.p[1]
 
+        # STEP 3
         self.f[n-1] /= self.q[n-1]
         fv[n-1] /= self.q[n-1]
         self.q[n-1] = self.b[n-1] = 1.0
@@ -115,16 +114,17 @@ class Matrix:
 
         self.c[n-2] = self.q[n-2]
 
-        x = [0.0 for _ in range(0,n)]
-
+        # STEP 4
+        x = [None] * n
         x[0] = self.f[0]
         x[n-2] = self.f[n-2]
         x[n-1] = self.f[n-1]
-        xv = [None] * n
 
+        xv = [None] * n
         xv[0] = fv[0]
         xv[n-2] = fv[n-2]
         xv[n-1] = fv[n-1]
+
 
         for i in range(n-3, 0, -1):
             x[i] = self.f[i] - self.c[i]*x[i+1]
@@ -141,31 +141,33 @@ class Matrix:
         error = max(delta)
         return accuracy, error
 
-#Matrix(10,10).show()
-count_succes=0
-qwe = 0
-acc = [] ; err = []
-while count_succes<10:
-    m = Matrix(1000,1000)
-    try:
-        a,e = m.calculation()
-    except ZeroDivisionError:
-        qwe +=1
-        continue
-    else:
-        acc.append(a)
-        err.append(e)
-        count_succes += 1
+if __name__ == "__main__":
+    print("\n\
+Lab 1, numerical analysis\n\
+Terekhov Danila Evgen'evich\n\
+Course: 3\n\
+Group: 8\n")
 
-#print(acc)
-#for i in acc:
-#    print(i)
-#print(err)
-#print(sum(acc))
-#print(sum(err))
-#print(sum(acc)/m.n)
-#print(sum(err)/m.n)
-#
-print(round(sum(err)/len(err), 5))
-print(round(sum(acc)/len(acc), 5))
-##print(len(err),len(acc),m.n)
+    size,ranges = [int(a) for a in input("Enter size and range: (10,100,1000) : ").split()]
+    print()
+
+    count_succes = 0
+    acc = [] ; err = []
+    while count_succes<10:
+        m = Matrix(size,ranges)
+        try:
+            a,e = m.calculation()
+        except ZeroDivisionError:
+            continue
+        else:
+            m.show()
+            acc.append(a)
+            err.append(e)
+            count_succes += 1
+
+    a = sum(err)/len(err)
+    e = sum(acc)/len(acc)
+    print("Size of matrix: %d x %d"  % (m.n, m.n))
+    print("Accuracy: %.3g" % a)
+    print("Error: %.3g" % e)
+    ##print(len(err),len(acc),m.n)
