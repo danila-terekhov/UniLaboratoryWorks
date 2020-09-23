@@ -142,11 +142,11 @@ class Matrix:
         return accuracy, error
 
 if __name__ == "__main__":
-    print("\n\
-Lab 1, numerical analysis\n\
-Terekhov Danila Evgen'evich\n\
-Course: 3\n\
-Group: 8\n")
+#    print("\n\
+#Lab 1, numerical analysis\n\
+#Terekhov Danila Evgen'evich\n\
+#Course: 3\n\
+#Group: 8\n")
 
     size,ranges = [int(a) for a in input("Enter size and range: (10,100,1000) : ").split()]
     print()
@@ -160,14 +160,14 @@ Group: 8\n")
         except ZeroDivisionError:
             continue
         else:
-            m.show()
             acc.append(a)
             err.append(e)
             count_succes += 1
 
     a = sum(err)/len(err)
     e = sum(acc)/len(acc)
-    print("Size of matrix: %d x %d"  % (m.n, m.n))
+#   print("Size of matrix: %d x %d"  % (m.n, m.n))
+    print("Input ", size,ranges)
     print("Accuracy: %.3g" % a)
     print("Error: %.3g" % e)
     ##print(len(err),len(acc),m.n)
