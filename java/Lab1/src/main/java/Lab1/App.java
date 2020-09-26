@@ -15,19 +15,19 @@ public class App {
         System.out.println(var.get(0));
 	for (int i=0; i<10; i++)
 		var.add(i);
-        System.out.println(var.getTotal());
+        System.out.println(var.getNumberOfElements());
         System.out.println(var.getSize());
 	var.show();
 	var.setSize(3);
-        System.out.println(var.getTotal());
+        System.out.println(var.getNumberOfElements());
         System.out.println(var.getSize());
 	var.show();
 	var.add(4);
-        System.out.println(var.getTotal());
+        System.out.println(var.getNumberOfElements());
         System.out.println(var.getSize());
 	var.show();
 	var.setSize(0);
-        System.out.println(var.getTotal());
+        System.out.println(var.getNumberOfElements());
         System.out.println(var.getSize());
 	var.show();
 	var.get(0);

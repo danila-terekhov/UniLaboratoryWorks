@@ -45,9 +45,10 @@ public class MyContainer<E> {
 		else
 			System.out.println("There is no such element.");
 	}
-	public int getTotal() {
+	public int getNumberOfElements() {
 		return total+1;
 	}
+
 	public int getSize(){
 		return size;
 	}
