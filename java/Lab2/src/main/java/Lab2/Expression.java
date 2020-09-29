@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Expression {
     String text;
     ArrayList<Token> tokens;
-    int textIndex = 0;
     int tokenIndex = 0;
 
     public Expression(String input) {
@@ -16,35 +15,39 @@ public class Expression {
 
     private void parse(){
         String tmp;
+	int textIndex = 0;
         for (char ch: text.toCharArray()){
             if (Character.isSpaceChar(ch)) {
                 textIndex++;
-                continue;
             } else
             if (Character.isDigit(ch)) {
-                tmp = get_number(textIndex);
+                tmp = fetchNumber(textIndex);
                 textIndex += tmp.length();
                 tokens.add(new Token(tmp));
             }
             /*
             if (Character.isAlphabetic(ch)) {
-                tmp = get_word(textIndex);
+                tmp = fetchWord(textIndex);
             }
              */
-            else
+            else {
                 tokens.add(new Token(String.valueOf(ch)));
                 textIndex++;
+	    }
         }
     }
     public void show(){
-        for (int i=0; i< tokens.size(); i++) {
-            System.out.println(tokens.get(i).getSymbol()+":"+tokens.get(i).getType());
+	for (Token i : tokens) {
+            System.out.println(i.getSymbol() + ":" + i.getType());
         }
     }
 
-    private String get_number(int textIndex) {
+    private String fetchNumber(int textIndex) {
         //TODO
-        return "1";
+        return String.valueOf(text.charAt(textIndex));
+    }
+    public ArrayList<Token> getTokens() {
+	    return tokens;
     }
 
 }

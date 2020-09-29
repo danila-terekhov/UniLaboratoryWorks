@@ -28,7 +28,9 @@ public class Token {
     public TypeOfToken getType() {
         return type;
     }
-    public String getSymbol() { return symbol; }
+    public String getSymbol() {
+	    return symbol;
+    }
 
 
 }
