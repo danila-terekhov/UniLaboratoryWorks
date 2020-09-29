@@ -16,7 +16,8 @@ public class ExpressionTest {
 	tokens.add(new Token("2"));
 	tokens.add(new Token("+"));
 	tokens.add(new Token("2"));
-        assertEquals(expression.getTokens(), tokens);
+	for (int i = 0; i < tokens.size() ; i++)
+        assertEquals(expression.getTokens().get(i).getSymbol(), tokens.get(i).getSymbol());
         /* ??? */
     }
 }
