@@ -53,8 +53,17 @@ class Matrix:
 
         #xv = [1.0 for _ in range(n)]
         fv = [sum(A[i]) for i in range(n)]
-        xz = find_v(A, self.f)
 
+        
+        xz = randlist_wo_zero(self.n, len(self.b))
+
+        self.f[0] = self.b[0]*xz[0] + self.c[0]*xz[1] + self.q[0]*xz[n-1]
+        self.f[1] = self.a[1]*xz[0] + self.b[1]*xz[1] + self.c[1]*xz[2] + self.q[1]*xz[n-1]
+        for i in range(2,n-2):
+            self.f[i] = self.p[i]*xz[0] + self.a[i]*xz[i-1] + self.b[i]*xz[i] + self.c[i]*xz[i+1] + self.q[i]*xz[n-1]
+        self.f[n-2] = self.p[n-2]*xz[0] + self.a[n-2]*xz[n-3] + self.b[n-2]*xz[n-2] + self.c[n-2]*xz[n-1]
+        self.f[n-1] = self.p[n-1]*xz[0] + self.a[n-1]*xz[n-2] + self.b[n-1]*xz[n-1]
+        
 
         tmp = self.c[0]
         self.c[0] = 0.0
@@ -132,7 +141,7 @@ class Matrix:
 
         accuracy = max([ abs(xv[i]-1) for i in range(n)])
         delta = [0.0 for _ in range(n)]
-        q = 0.001
+        q = 0.01
         for i in range(n):
             if abs(x[i]-xz[i]) > q:
                 delta[i] = abs((x[i]-xz[i])/xz[i])
@@ -142,11 +151,11 @@ class Matrix:
         return accuracy, error
 
 if __name__ == "__main__":
-#    print("\n\
-#Lab 1, numerical analysis\n\
-#Terekhov Danila Evgen'evich\n\
-#Course: 3\n\
-#Group: 8\n")
+    print("\n\
+Lab 1, numerical analysis\n\
+Terekhov Danila Evgen'evich\n\
+Course: 3\n\
+Group: 8\n")
 
     size,ranges = [int(a) for a in input("Enter size and range: (10,100,1000) : ").split()]
     print()
