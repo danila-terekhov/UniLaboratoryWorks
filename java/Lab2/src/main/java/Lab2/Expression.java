@@ -14,26 +14,28 @@ public class Expression {
     }
 
     private void parse(){
-        String tmp;
-	int textIndex = 0;
-        for (char ch: text.toCharArray()){
-            if (Character.isSpaceChar(ch)) {
-                textIndex++;
-            } else
-            if (Character.isDigit(ch)) {
-                tmp = fetchNumber(textIndex);
-                textIndex += tmp.length();
-                tokens.add(new Token(tmp));
+	    int firstIndex, lastIndex;
+        for (int i=0; i < text.length(); i++){
+            if (Character.isSpaceChar(text.charAt(i)));
+            else if (Character.isDigit(text.charAt(i))) {
+                firstIndex = i;
+                while (i < text.length()-1
+                    || Character.isDigit(text.charAt(i))
+                    || '.' == text.charAt(i))
+                    i++;
+                lastIndex = --i;
+
+                tokens.add(new Token(text.substring(firstIndex,lastIndex)));
             }
             /*
+            else
             if (Character.isAlphabetic(ch)) {
                 tmp = fetchWord(textIndex);
             }
              */
-            else {
-                tokens.add(new Token(String.valueOf(ch)));
-                textIndex++;
-	    }
+            else
+                tokens.add(new Token(String.valueOf(text.charAt(i))));
+
         }
     }
     public void show(){
@@ -42,10 +44,6 @@ public class Expression {
         }
     }
 
-    private String fetchNumber(int textIndex) {
-        //TODO
-        return String.valueOf(text.charAt(textIndex));
-    }
     public ArrayList<Token> getTokens() {
 	    return tokens;
     }
