@@ -75,26 +75,25 @@ class Matrix:
 
 #            self.show()
 
-            b = self.beta(i)
-            # check m == 0
-            m = self.my(b,self.A[i][i])
-            w = [0] * i + self.A[i][i:]
-            w[i] -= b
-            w = [z*m for z in w]
+            le =0
+            a = list()
+            for k in range(n):
+                a.append(self.A[k][i])
+            le = sqrt(sum([qwe*qwe for qwe in a]))
+            
+            w = list()
+            e = [1,0,0]
+            for k in range(n):
+                e[k] *= sign(self.A[i][i]) * le * e[i]
+                w.append(a[k]+sign(self.A[i][i])*le*e[k])
+            
+            print(sqrt(sum([m*qwe*qwe for qwe in w])))
+            self.multiply(w)
 
+            WT = np.array(w)
+            W = np.transpose(WT)
 
-            print(sqrt(sum([qwe*qwe for qwe in w])))
-
-            H = [[0 for _ in range(n)] for _ in range(n)]
-            for I in range(n):
-                for J in range(n):
-                    H[I][J] = kron(I,J) - 2*w[I]*w[J]
-            H1 = np.array(H)
-            W = np.array(w)
-            print(H1)
-            AA = np.array(self.A)
-            print(np.dot(H1,AA))
-
+            print(W*WT)
 
 
 
