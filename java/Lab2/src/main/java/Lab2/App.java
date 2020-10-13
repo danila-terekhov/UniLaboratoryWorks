@@ -7,8 +7,13 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
-	    Expression exp = new Expression("2+2");
-	    exp.show();
+        //Parser expression = ;
+        System.out.format("2*2+2 = %f\n", new Parser("2*2+2").evaluate());
+        System.out.format("2*(2+2) = %f\n", new Parser("2*(2+2)").evaluate());
+        System.out.format("sin(Pi) = %f\n", new Parser("sin(Pi)").evaluate());
+        System.out.format("1+x = %f\n", new Parser("1+x").evaluate());
+        System.out.format("1++1 = %f\n", new Parser("1++1").evaluate());
+        System.out.format("1(+1 = %f\n", new Parser("1(+1").evaluate());
 
     }
 
