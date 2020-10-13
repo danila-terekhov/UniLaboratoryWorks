@@ -1,3 +1,8 @@
+### usage:
+```
+$ java Main.java numberOfOperations # it works w/o precompilation!
+```
+
 ### N ~= 15000 *результаты зависят от N*
 
 ***
