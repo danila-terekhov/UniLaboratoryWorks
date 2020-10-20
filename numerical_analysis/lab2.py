@@ -1,6 +1,5 @@
-#!/usr/bin/env python
-import numpy as np
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 from random import *
 
 def non_zero_randfloat(rang):
@@ -79,22 +78,35 @@ class Matrix:
                 w.append(m*self.A[k][i])
 
             self.multiply(w)
-        
 
+        x = [None] * n
+        x[n-1] = self.f[n-1] / self.A[n-1][n-1]
 
+        for i in range(n-2, -1, -1):
+            summ = self.f[i]
+            for k in range(i+1, n):
+                summ -= x[k] * self.A[i][k]
+            x[i] = summ / self.A[i][i]
 
+        delta = [0.0 for _ in range(n)]
+        q = 0.01
+        for i in range(n):
+            if abs(x[i]-self.x[i]) > q:
+                delta[i] = abs((x[i]-self.x[i])/self.x[i])
+            else:# abs(x[i]-xz[i]) <= q:
+                delta[i] = abs(x[i]-self.x[i])
 
+        self.show()
+        return max(delta)
 
-
-
-
-
-
-
-
-
-
-
-m = Matrix(10, 10)
-m.calculation()
-m.show()
+if __name__ == "__main__":
+    print("\n\
+Численные методы\n\
+Лабораторная N2 \n\
+Вариант: 13\n\
+Ученик: Терехов Данила Евгеньевич\n\
+Преподаватель: Шабунина Зоя Александровна\n\
+Курс: 3\n\
+Группа: 8\n")
+    m = Matrix(50, 10)
+    print(m.calculation())
