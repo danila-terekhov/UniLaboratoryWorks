@@ -31,38 +31,31 @@ class Matrix:
 
 
     def show(self):
+        print("Matrix:")
         for row in self.A:
             print(row)
+        print()
 
-#    def beta(self,i):
-#        answer = sign(-self.A[i][i]) * sqrt(sum([X*X for X in self.A[i][i:]]))
-#        return answer
     def beta(self,i):
-        answer = sign(-self.A[i][i])
         summ = 0
-        for k in range(i,self.n):
+        for k in range(i, self.n):
             summ += self.A[k][i]*self.A[k][i]
-        return answer * sqrt(summ)
-
-
+        summ = sqrt(summ)
+        return sign(-self.A[i][i]) * summ
 
     def multiply(self, w):
         n = self.n
-        B = [[0 for _ in range(n)] for _ in range(n)]
-
+        B = self.A
         for j in range(n):
+
             summ = 0
             for k in range(n):
                 summ += w[k] * self.A[k][j]
             summ *= 2
+
             for i in range(n):
-                B[i][j] = self.A[i][j] - w[i]*summ
-
-
-    def my(self,b,x):
-        znamenatel = 2*b*b - 2*b*x
-        znamenatel = sqrt(znamenatel)
-        return 1/znamenatel
+                self.A[i][j] -= w[i] * summ
+                self.A[i][j] = round(self.A[i][j],13)
 
 
 
@@ -71,31 +64,37 @@ class Matrix:
         n = self.n
         self.f = [sum([self.A[i][j]*self.x[j] for j in range(n)]) for i in range(n)]
 
-        for i in range(1):
+        for i in range(n-1):
 
-#            self.show()
+            b = self.beta(i)
 
-            le =0
-            a = list()
-            for k in range(n):
-                a.append(self.A[k][i])
-            le = sqrt(sum([qwe*qwe for qwe in a]))
-            
-            w = list()
-            e = [1,0,0]
-            for k in range(n):
-                e[k] *= sign(self.A[i][i]) * le * e[i]
-                w.append(a[k]+sign(self.A[i][i])*le*e[k])
-            
-            print(sqrt(sum([m*qwe*qwe for qwe in w])))
+            if self.A[i][i] == b:
+                continue
+
+            m = my(b, self.A[i][i])
+
+            w = [0]* i
+            w.append(m*(self.A[i][i] - b))
+            for k in range(i+1,n):
+                w.append(m*self.A[k][i])
+
             self.multiply(w)
-
-            WT = np.array(w)
-            W = np.transpose(WT)
-
-            print(W*WT)
+        
 
 
 
-m = Matrix(3,3)
+
+
+
+
+
+
+
+
+
+
+
+
+m = Matrix(10, 10)
 m.calculation()
+m.show()
