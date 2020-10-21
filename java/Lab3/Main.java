@@ -38,7 +38,7 @@ public class Main {
 	for (int i = 0; i < N; i++)
 		link.add("0");
 	end = Instant.now();
-	times[1] = Duration.between(start,end).toNanos();
+	times[1] = Duration.between(start,end).toMillist();
 
 	link.clear();
 
