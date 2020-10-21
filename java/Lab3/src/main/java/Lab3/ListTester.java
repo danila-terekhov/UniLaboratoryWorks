@@ -42,7 +42,7 @@ public class ListTester {
             list.add(value);
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
 
     /**
@@ -62,7 +62,7 @@ public class ListTester {
             list.add(index, value);
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
     /**
      * Измерение времени, требуемое на
@@ -80,7 +80,7 @@ public class ListTester {
             list.add(i/2,value);
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
 
     /**
@@ -103,7 +103,7 @@ public class ListTester {
             list.get(index);
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
 
     /**
@@ -118,7 +118,7 @@ public class ListTester {
             list.get(i/2);
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
 
     /**
@@ -135,7 +135,7 @@ public class ListTester {
         } while (--N > 0);
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
 
     /**
@@ -150,7 +150,7 @@ public class ListTester {
             list.remove(index);
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
 
     /**
@@ -165,7 +165,7 @@ public class ListTester {
             list.remove(i/2);
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
 
     /**
@@ -182,7 +182,7 @@ public class ListTester {
             iter.next();
         end = Instant.now();
 
-        return Duration.between(start,end).toNanosPart();
+        return Duration.between(start,end).toNanos();
     }
 
 }
