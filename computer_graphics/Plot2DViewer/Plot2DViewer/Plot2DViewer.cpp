@@ -42,7 +42,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 // В основном модуле объявляется только одна глобальная переменная - создаётся объект класса Scene2D
 // Все дальнейшие действия осуществляются посредством обращения к методам, реализованным в этом классе
-Scene2D scene(X0, Y0, px, py, 400, 400);
+Scene2D scene(X0, Y0, px, py);
 
 LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// оконная процедура принимает и обрабатывает все сообщения, отправленные окну
 {
@@ -52,7 +52,8 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	{
 		HDC dc = GetDC(hWnd);
 		scene.Clear(dc);				// Вызов реализованного в классе Camera2D метода, отвечающего за очистку рабочей области окна hWnd
-		scene.Plot(dc, Sinusoid);
+		//scene.Plot(dc, Sinusoid);
+		scene.MyPlot(dc, paramEllX, paramEllY);
 		// Вызов реализованного в классе Scene2D метода, отвечающего за отрисовку графика синусоиды
 		ReleaseDC(hWnd, dc);
 		return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -72,7 +73,40 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		PostQuitMessage(0);
 		return 0;
 	}
+	case WM_LBUTTONDOWN:
+	{
+		scene.StartDragging(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		return 0;
+	}
+	case WM_LBUTTONUP:
+	{
+		scene.StopDragging();
+		return 0;
+	}
+	case WM_MOUSEMOVE:
+	{
+		if (scene.isDragging){
+			scene.Drag(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			InvalidateRect(hWnd, nullptr, false);
+		}
+	return 0;
+	}
+	case WM_MOUSEWHEEL:
+	{
 
+		POINT P;
+		P.x = GET_X_LPARAM(lParam);
+		P.y = GET_Y_LPARAM(lParam);
+		ScreenToClient(hWnd, &P);
+
+		scene.Resize(
+			P.x,
+			P.y,
+			GET_WHEEL_DELTA_WPARAM(wParam) > 0);
+
+		InvalidateRect(hWnd, nullptr, false);
+		return 0;
+	}
 	default:
 	{
 		return DefWindowProc(hWnd, msg, wParam, lParam);
