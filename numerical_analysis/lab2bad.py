@@ -67,7 +67,10 @@ class Matrix:
     def calculation(self):
 
         n = self.n
-        
+        K = 6
+        for i in range(n):
+            for j in range(n):
+                self.A[i][j] *= 10**(-K*2)
         self.f = [sum([self.A[i][j]*self.x[j] for j in range(n)]) for i in range(n)]
 
         for i in range(n-1):

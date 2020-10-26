@@ -24,8 +24,10 @@ class Matrix:
 
     def __init__(self, size=10, rang=10):
         self.n = size
-        self.A = [randlist_wo_zero(self.n, rang) for _ in range(size)]
-        self.x = randlist_wo_zero(self.n, rang)
+        #self.A = [randlist_wo_zero(self.n, rang) for _ in range(size)]
+        self.A = [[0.0 for _ in range(self.n)] for _ in range(self.n)]
+        #self.x = randlist_wo_zero(self.n, rang)
+        self.x = [1] * self.n
         self.f = [None] * self.n
 
 
@@ -43,9 +45,9 @@ class Matrix:
         return sign(-self.A[i][i]) * summ
 
     def multiply(self, w):
+
         n = self.n
         for j in range(n):
-
             summ = 0
             for k in range(n):
                 summ += w[k] * self.A[k][j]
@@ -53,22 +55,20 @@ class Matrix:
 
             for i in range(n):
                 self.A[i][j] -= w[i] * summ
-                self.A[i][j] = round(self.A[i][j],13)
-
-        summ = 0
-        for k in range(n):
-            summ += w[k] * self.f[k]
-        summ *= 2
-        for i in range(n):
-            self.f[i] -= w[i] * summ
+                #self.A[i][j] = round(self.A[i][j],13)
 
 
 
     def calculation(self):
 
         n = self.n
-        
-        self.f = [sum([self.A[i][j]*self.x[j] for j in range(n)]) for i in range(n)]
+        for i in range(n):
+            for j in range(n):
+                self.A[i][j] = 1/(i+j+1)
+        self.f = [sum(self.A[i]) for i in range(n)]
+        for i in range(n):
+            print(self.A[i],self.f[i])
+        #self.f = [sum([self.A[i][j]*self.x[j] for j in range(n)]) for i in range(n)]
 
         for i in range(n-1):
 
@@ -96,14 +96,14 @@ class Matrix:
             x[i] = summ / self.A[i][i]
 
         delta = [0.0 for _ in range(n)]
-        q = 0.1
+        q = 0.01
         for i in range(n):
             if abs(x[i]-self.x[i]) > q:
                 delta[i] = abs((x[i]-self.x[i])/self.x[i])
             else:# abs(x[i]-xz[i]) <= q:
                 delta[i] = abs(x[i]-self.x[i])
 
-        return max(delta)
+        return max([abs(x[i]-1) for i in range(n)])
 
 if __name__ == "__main__":
     print("\n\
@@ -126,5 +126,7 @@ if __name__ == "__main__":
         count_succes += 1
 
     e = sum(err)/len(err)
+#   print("Size of matrix: %d x %d"  % (m.n, m.n))
     print("Input ", size,ranges)
     print("Error: %.3g" % e)
+    #m.show()
