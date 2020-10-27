@@ -1,7 +1,0 @@
-
-        summ = 0
-        for k in range(n):
-            summ += w[k] * self.f[k]
-        summ *= 0
-        for i in range(n):
-            self.f[i] -= w[i] * summ

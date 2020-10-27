@@ -67,7 +67,6 @@ class Matrix:
     def calculation(self):
 
         n = self.n
-        
         self.f = [sum([self.A[i][j]*self.x[j] for j in range(n)]) for i in range(n)]
 
         for i in range(n-1):
@@ -96,7 +95,7 @@ class Matrix:
             x[i] = summ / self.A[i][i]
 
         delta = [0.0 for _ in range(n)]
-        q = 0.1
+        q = 0.001
         for i in range(n):
             if abs(x[i]-self.x[i]) > q:
                 delta[i] = abs((x[i]-self.x[i])/self.x[i])
