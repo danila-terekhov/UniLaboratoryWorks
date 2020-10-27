@@ -7,17 +7,21 @@
 
 class Camera2D
 {
+public:
+	bool isDragging;
 protected:
 	double X0, Y0;						// Экранные координаты начала мировой системы координат
 	double px, py;						// Единицы масштаба мировой системы координат, выраженные в пикселях
+	double prevX0, prevY0;
+
 	int W, H;							// Разрешение рабочей области окна
 	int WorldToScreenX(double X)		// Переход от мировых координат к экранным (для абсциссы)
 	{
-		return X0 + px * X + 0.5;
+		return (int)(X0 + px * X + 0.5);
 	}
 	int WorldToScreenY(double Y)		// Переход от мировых координат к экранным (для ординаты)
 	{
-		return Y0 - py * Y + 0.5;
+		return (int)(Y0 - py * Y + 0.5);
 	}
 	double ScreenToWorldX(int X)		// Переход от экранных координат к мировым (для абсциссы)
 	{
@@ -29,16 +33,24 @@ protected:
 	}
 	double L()							// Абсцисса левой границы рабочей области окна (в мировых координатах)
 	{
-		return -X0/px;
+		return ScreenToWorldX(0);
 	}
 	double R()							// Абсцисса правой границы рабочей области окна (в мировых координатах)
 	{
-		return (W-X0)/px;
+		return ScreenToWorldX(W);
+	}
+	double T()
+	{
+		return ScreenToWorldY(0);
+	}
+	double B() 
+	{
+		return ScreenToWorldY(H);
 	}
 private:
-	double posX=0, posY=0;					// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
+	double posX, posY;					// Позиция графического курсора в мировых координатах (для функций MoveTo и LineTo)
 public:
-	Camera2D(double X0, double Y0, double px, double py, int W, int H) : X0(X0), Y0(Y0), px(px), py(py), W(W), H(H)
+	Camera2D(double X0, double Y0, double px, double py) : X0(X0), Y0(Y0), px(px), py(py)
 	{
 	}
 	void Clear(HDC dc)
@@ -49,37 +61,77 @@ public:
 	{
 		RECT r;
 		GetClientRect(WindowFromDC(dc), &r);
-		int WN = r.right + 1;
-		int HN = r.bottom + 1;
 
-		X0 = (WN / W) * X0;
-		Y0 = (WN / W) * (px / py) * Y0 + (H / 2) * ((HN / H) - ((WN / W) * (px / py)));
-		px = (WN / W) * px;
-		py = (WN / W) * py;
+		if (!W && !H)
+		{
+			W = r.right+1;
+			H = r.bottom+1;
+		}
 
-		W = WN;
-		H = HN;
+		double W1 = double(r.right+1) / W;
+		double H1 = double(r.bottom+1) / H;
 
+
+		X0 *= W1;
+		Y0 = W1 * (px / py) * Y0 + (H / 2) * (H1 - W1 * (px / py));
+		py = px * W1;
+		px *= W1;
+		
+
+		W = r.right+1;
+		H = r.bottom+1;
+		
 		// Данная процедура вызывается при изменении размеров окна
 		// В ней задаются значения величин W, H, а также настраиваются значения параметров X0, Y0, px, py таким образом, чтобы обеспечить одинаковые масштабы по координатным осям
 	}
-	void MoveTo(HDC dc, double X, double Y)
+	void MoveTo(double X, double Y)
 	{
-		posX = ScreenToWorldX(X);
-		posY  = ScreenToWorldY(Y);
-		::MoveToEx(dc, posX, posY, 0);
+		posX = X;
+		posY = Y;
 	}
 	void LineTo(HDC dc, double X, double Y)
 	{
-		posX = ScreenToWorldX(X);
-		posY = ScreenToWorldY(Y);
-		::LineTo(dc, posX, posY);
+		MoveToEx(dc, WorldToScreenX(posX), WorldToScreenY(posY), nullptr);
+		WIN32::LineTo(dc, WorldToScreenX(X), WorldToScreenY(Y));
+		MoveTo(X, Y);
 	}
 	void Axes(HDC dc)
 	{
-		MoveTo(dc, 0, 0);
-		LineTo(dc, 10,10);
 
+		WIN32::MoveToEx(dc, 0, Y0, 0);
+		WIN32::LineTo(dc, W, Y0);
+		WIN32::MoveToEx(dc, X0, 0, 0);
+		WIN32::LineTo(dc, X0, H);
+	}
+	void StartDragging(int X, int Y)
+	{
+		prevX0 = X;
+		prevY0 = Y;
+		isDragging = true;
+	}
+
+	void StopDragging()
+	{
+		isDragging = false;
+	}
+
+	void Drag(int X, int Y)
+	{
+		X0 += X - prevX0;
+		Y0 += Y - prevY0;
+		prevX0 = X;
+		prevY0 = Y;
+	}
+	void Resize(int X, int Y, bool inc)
+	{
+		double
+			k = inc ? 0.1 : -0.1,
+			XW = ScreenToWorldX(X),
+			YW = ScreenToWorldY(Y);
+		X0 -= k * px * XW;
+		Y0 += k * py * YW;
+		px = (1.0 + k) * px;
+		py = (1.0 + k) * py;
 	}
 };
 
