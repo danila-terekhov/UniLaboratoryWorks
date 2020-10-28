@@ -9,6 +9,8 @@ public class App {
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        MyCSVReader mrd = new MyCSVReader(';');
+        System.out.println(System.getProperty("java.class.path"));
+        mrd.read("foreign_names.csv");
     }
 }
