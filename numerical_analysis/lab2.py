@@ -1,6 +1,5 @@
-#!/usr/bin/env python
-import numpy as np
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 from random import *
 
 def non_zero_randfloat(rang):
@@ -31,38 +30,37 @@ class Matrix:
 
 
     def show(self):
+        print("Matrix:")
         for row in self.A:
             print(row)
+        print()
 
-#    def beta(self,i):
-#        answer = sign(-self.A[i][i]) * sqrt(sum([X*X for X in self.A[i][i:]]))
-#        return answer
     def beta(self,i):
-        answer = sign(-self.A[i][i])
         summ = 0
-        for k in range(i,self.n):
+        for k in range(i, self.n):
             summ += self.A[k][i]*self.A[k][i]
-        return answer * sqrt(summ)
-
-
+        summ = sqrt(summ)
+        return sign(-self.A[i][i]) * summ
 
     def multiply(self, w):
         n = self.n
-        B = [[0 for _ in range(n)] for _ in range(n)]
-
         for j in range(n):
+
             summ = 0
             for k in range(n):
                 summ += w[k] * self.A[k][j]
             summ *= 2
+
             for i in range(n):
-                B[i][j] = self.A[i][j] - w[i]*summ
+                self.A[i][j] -= w[i] * summ
+                self.A[i][j] = round(self.A[i][j],13)
 
-
-    def my(self,b,x):
-        znamenatel = 2*b*b - 2*b*x
-        znamenatel = sqrt(znamenatel)
-        return 1/znamenatel
+        summ = 0
+        for k in range(n):
+            summ += w[k] * self.f[k]
+        summ *= 2
+        for i in range(n):
+            self.f[i] -= w[i] * summ
 
 
 
@@ -71,31 +69,61 @@ class Matrix:
         n = self.n
         self.f = [sum([self.A[i][j]*self.x[j] for j in range(n)]) for i in range(n)]
 
-        for i in range(1):
+        for i in range(n-1):
 
-#            self.show()
+            b = self.beta(i)
 
-            le =0
-            a = list()
-            for k in range(n):
-                a.append(self.A[k][i])
-            le = sqrt(sum([qwe*qwe for qwe in a]))
-            
-            w = list()
-            e = [1,0,0]
-            for k in range(n):
-                e[k] *= sign(self.A[i][i]) * le * e[i]
-                w.append(a[k]+sign(self.A[i][i])*le*e[k])
-            
-            print(sqrt(sum([m*qwe*qwe for qwe in w])))
+            if self.A[i][i] == b:
+                continue
+
+            m = my(b, self.A[i][i])
+
+            w = [0]* i
+            w.append(m*(self.A[i][i] - b))
+            for k in range(i+1,n):
+                w.append(m*self.A[k][i])
+
             self.multiply(w)
 
-            WT = np.array(w)
-            W = np.transpose(WT)
+        x = [None] * n
+        x[n-1] = self.f[n-1] / self.A[n-1][n-1]
 
-            print(W*WT)
+        for i in range(n-2, -1, -1):
+            summ = self.f[i]
+            for k in range(i+1, n):
+                summ -= x[k] * self.A[i][k]
+            x[i] = summ / self.A[i][i]
 
+        delta = [0.0 for _ in range(n)]
+        q = 0.001
+        for i in range(n):
+            if abs(x[i]-self.x[i]) > q:
+                delta[i] = abs((x[i]-self.x[i])/self.x[i])
+            else:# abs(x[i]-xz[i]) <= q:
+                delta[i] = abs(x[i]-self.x[i])
 
+        return max(delta)
 
-m = Matrix(3,3)
-m.calculation()
+if __name__ == "__main__":
+    print("\n\
+Численные методы\n\
+Лабораторная N2 \n\
+Вариант: 13\n\
+Ученик: Терехов Данила Евгеньевич\n\
+Преподаватель: Шабунина Зоя Александровна\n\
+Курс: 3\n\
+Группа: 8\n")
+    size,ranges = [int(a) for a in input("Enter size and range: (10,100,1000) : ").split()]
+    print()
+
+    count_succes = 0
+    acc = [] ; err = []
+    while count_succes<10:
+        m = Matrix(size,ranges)
+        e = m.calculation()
+        err.append(e)
+        count_succes += 1
+
+    e = sum(err)/len(err)
+    print("Input ", size,ranges)
+    print("Error: %.3g" % e)
