@@ -3,6 +3,8 @@
  */
 package Lab4;
 
+import java.util.List;
+
 public class App {
     public String getGreeting() {
         return "Hello world.";
@@ -10,7 +12,9 @@ public class App {
 
     public static void main(String[] args) {
         MyCSVReader mrd = new MyCSVReader(';');
-        System.out.println(System.getProperty("java.class.path"));
-        mrd.read("foreign_names.csv");
+
+        List qwe = mrd.readCSV("foreign_names.csv");
+
+        System.out.println(qwe);
     }
 }
