@@ -21,8 +21,8 @@ double Sinusoid(double x)
 }
 
 double paramEllX(double t) {
-	return 1;
+	return t/4 ;
 }
 double paramEllY(double t) {
-	return 2*t;
+	return t;
 }
