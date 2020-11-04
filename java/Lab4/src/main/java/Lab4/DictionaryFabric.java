@@ -6,6 +6,7 @@ import java.lang.IllegalArgumentException;
 
 /**
  * Класс для создания словарей HashMap &ltString, Object&gt
+ * Я не уверен что он называется фабрикой...
  */
 class DictionaryFabric {
     String[] keys;
