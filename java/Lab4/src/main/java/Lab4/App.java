@@ -3,7 +3,6 @@
  */
 package Lab4;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class App {
@@ -12,16 +11,14 @@ public class App {
     }
 
     public static void main(String[] args) {
-        DictionaryFabric dictionaryFabric = new ManDictionaryFacric();
+        DictionaryFabric dictionaryFabric = new ManFabric();
 
         MyCSVReader csvReader = new MyCSVReader("foreign_names.csv",';', dictionaryFabric);
 
         List csvContent = csvReader.readCSV();
-        HashMap qwe = (HashMap) csvContent.get(0);
-        Division div = (Division) qwe.get("Division");
 
-        System.out.println(csvContent);
-        System.out.println(div.getLetter());
+        for (Object rows: csvContent)
+             System.out.println(rows);
 
     }
 }
