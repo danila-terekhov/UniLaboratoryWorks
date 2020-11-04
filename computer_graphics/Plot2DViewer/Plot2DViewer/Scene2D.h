@@ -17,8 +17,10 @@ public:
 		if (axes)
 			Axes(dc);
 
-		double h = (R()- L())/W;
-		MoveTo(L(), Y0);
+		double h = 1/px;
+		//double h = (R()- L())/W;
+		MoveTo(L(), f(L()));
+		//double R = R();
 		for (double current = L(); current < R(); current += h)
 			LineTo(dc, current, f(current));
 
@@ -26,11 +28,15 @@ public:
 		// Здесь передаваемая в качестве параметра функция f вызывается как обычная функция:
 		// f(x);
 	}
-	void MyPlot(HDC dc, Func fX, Func fY, bool axes = true) { // эллиптическая ск, параметрическое задание 
+	void MyPlot(HDC dc, Func fX, Func fY, double tMin=0, double tMax=8* M_PI, bool axes = true) { // эллиптическая ск, параметрическое задание 
 		if (axes)
 			Axes(dc);
-
-		double h = (2 * M_PI) / W, t = 0;
+		double t = tMin;
+		//double h = (tMax - tMin) / W;
+		double h = 1 / (10.*px*sqrt(R()-L()));
+		MoveTo(
+			cosh(fX(tMin)) * cos(fY(tMin)),
+			sinh(fX(tMin)) * sin(fY(tMin)));
 		do {
 
 			LineTo(
@@ -40,7 +46,12 @@ public:
 			);
 			t += h;
 
-		} while (t <= 2 * M_PI);
+		} while (t < tMax);
+		LineTo(
+			dc,
+			cosh(fX(tMax)) * cos(fY(tMax)), 
+			sinh(fX(tMax)) * sin(fY(tMax))
+		);
 
 			
 	}

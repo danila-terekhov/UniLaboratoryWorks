@@ -70,12 +70,13 @@ public:
 
 		double W1 = double(r.right+1) / W;
 		double H1 = double(r.bottom+1) / H;
-
+		// px * W
 
 		X0 *= W1;
 		Y0 = W1 * (px / py) * Y0 + (H / 2) * (H1 - W1 * (px / py));
-		py = px * W1;
+		//py = px * W1;
 		px *= W1;
+		py = px;
 		
 
 		W = r.right+1;
