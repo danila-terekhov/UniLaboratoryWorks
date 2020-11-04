@@ -63,6 +63,8 @@ public class MyCSVReader {
                 openFile();
 
             String[] nextLine = reader.readNext(); // csv header
+            if (nextLine == null)
+                throw new IOException("File is empty!");
 
             if (csvFabric == null)
                 csvFabric = new DictionaryFabric(nextLine);
