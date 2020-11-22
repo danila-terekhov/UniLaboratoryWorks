@@ -48,12 +48,17 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 {
 	switch (msg)
 	{
+	case WM_CREATE:
+	{
+		scene.setModel("Vertices.txt", "Edges.txt");
+	}
 	case WM_PAINT:
 	{
 		HDC dc = GetDC(hWnd);
 		scene.Clear(dc);				// Вызов реализованного в классе Camera2D метода, отвечающего за очистку рабочей области окна hWnd
 		//scene.Plot(dc, Sinusoid);
-		scene.MyPlot(dc, paramEllX, paramEllY);
+		//scene.MyPlot(dc, paramEllX, paramEllY);
+		scene.Render(dc);
 		// Вызов реализованного в классе Scene2D метода, отвечающего за отрисовку графика синусоиды
 		ReleaseDC(hWnd, dc);
 		return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -67,6 +72,57 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		InvalidateRect(hWnd, nullptr, false);
 		return 0;
 	}
+	case WM_KEYDOWN:
+	{
+
+		switch (wParam)
+		{
+
+		case VK_NUMPAD3:
+			scene.apply(Translation(0.5, 0));
+			break;
+		case VK_NUMPAD1:
+			scene.apply(Translation(-0.5, 0));
+			break;
+		case VK_NUMPAD5:
+			scene.apply(Translation(0, 0.5));
+			break;
+		case VK_NUMPAD2:
+			scene.apply(Translation(0, -0.5));
+			break;
+
+
+		case VK_NUMPAD4:
+			scene.apply(Rotation(3.14 / 36));
+			break;
+		case VK_NUMPAD6:
+			scene.apply(Rotation(-3.14 / 36));
+			break;
+
+		case VK_NUMPAD7:
+			scene.apply(Mapping(OX));
+			break;
+		case VK_NUMPAD8:
+			scene.apply(Mapping(OY));
+			break;
+		case VK_NUMPAD9:
+			scene.apply(Mapping(OO));
+			break;
+
+		case VK_OEM_PLUS:
+			scene.apply(Scaling(1.2, 1.2));
+			break;
+
+		case VK_OEM_MINUS:
+			scene.apply(Scaling(0.8, 0.8));
+			break;
+
+
+		}
+		InvalidateRect(hWnd, nullptr, false);
+		return 0;
+	}
+
 
 	case WM_DESTROY:
 	{

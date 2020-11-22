@@ -1,4 +1,5 @@
-﻿#ifndef MATRIX_H
+﻿#pragma once
+#ifndef MATRIX_H
 #define MATRIX_H
 
 #include <iostream>
@@ -17,6 +18,8 @@ private:
 	void FreeCells();
 
 public:
+	int getRows() { return rows; }
+	int getCols() { return cols; }
 	Matrix() : rows(0), cols(0), cells(nullptr) {}	// Конструктор по умолчанию
 	Matrix(const Matrix&);					// Конструктор копирования
 	Matrix(int, int);							// Конструктор нулевой матрицы
@@ -73,7 +76,7 @@ Matrix<Cell>& Matrix<Cell>::operator=(const Matrix& M)
 {
 	if (rows != M.rows || cols != M.cols)
 		this->Resize(M.rows, M.cols);
-	
+
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
 			cells[i][j] = M.cells[i][j];
@@ -84,7 +87,7 @@ template <typename Cell>
 Matrix<Cell> Matrix<Cell>::operator+(const Matrix& M)
 {
 	Matrix<Cell> res(*this);
-	
+
 	if (rows == M.rows && cols == M.cols)
 	{
 		for (int i = 0; i < rows; i++)
@@ -155,10 +158,10 @@ template <typename Cell>
 void Matrix<Cell>::FreeCells()
 {
 	//if (cells != nullptr) {
-		for (int i = 0; i < rows; i++)
-			delete cells[i];
-		delete[] cells;
-		rows = cols = 0;
+	for (int i = 0; i < rows; i++)
+		delete cells[i];
+	delete[] cells;
+	rows = cols = 0;
 	//}
 }
 template <typename Cell>

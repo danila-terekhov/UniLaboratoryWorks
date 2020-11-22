@@ -35,10 +35,10 @@ Matrix<> Rotation(double t)
 // Rotation(c, s) - поворот на угол, косинус и синус которого пропорциональны величинам c и s;
 Matrix<> Rotation(double c, double s)
 {
-	double d = 1.0 / sqrt(c*c + s*s);
+	double d = 1.0 / sqrt(c * c + s * s);
 	double T[] = {
-		c*d,-s*d, 0,
-		s*d, c*d, 0,
+		c * d,-s * d, 0,
+		s * d, c * d, 0,
 		0,   0,   1 };
 	return Matrix<>(3, 3, T);
 }
@@ -54,8 +54,8 @@ Matrix<> Scaling(double kx, double ky)
 // Mapping (различные виды отражений) - по желанию, для создания матриц отражения можно использовать функцию Scaling.
 Matrix<> Mapping(int flag) {
 	return Scaling(
-		flag & OX ? -1: 1,
-		flag & OY ? -1: 1
+		flag & OX ? -1 : 1,
+		flag & OY ? -1 : 1
 	);
 }
 

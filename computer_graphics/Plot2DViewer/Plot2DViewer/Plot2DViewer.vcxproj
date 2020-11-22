@@ -65,8 +65,11 @@
     <ClCompile Include="Plot2DViewer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AffineTransform.h" />
     <ClInclude Include="Camera2D.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Model2D.h" />
     <ClInclude Include="Scene2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
