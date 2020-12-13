@@ -4,16 +4,17 @@
 package Lab5;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class App {
     public String getGreeting() {
         return "Hello world.";
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-        SomeBean sb = (SomeBean) (new Injector()).inject(new SomeBean(), "random.properties");
-        //sb.foo();
+        SomeBean sb = (SomeBean) (new Injector()).inject(new SomeBean(), "src/main/recources/tmp.properties");
+        sb.foo();
 
 
     }

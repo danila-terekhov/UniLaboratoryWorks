@@ -26,7 +26,6 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
- //   implementation 'com.github.Inconnu08:android-ratingreviews:1.2.0'
 }
 
 application {
