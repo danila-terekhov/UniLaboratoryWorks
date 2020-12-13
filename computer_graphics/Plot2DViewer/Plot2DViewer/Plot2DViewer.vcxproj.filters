@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Camera2D.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene2D.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="AffineTransform.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model2D.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="header files">
+      <UniqueIdentifier>{f09a2436-269e-499a-97e8-f93d8ab6e0ce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Plot2DViewer.cpp">
+      <Filter>header files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
