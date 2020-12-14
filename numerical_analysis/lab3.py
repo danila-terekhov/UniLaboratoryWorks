@@ -54,7 +54,7 @@ class Matrix:
         return max_row, max_col, max_elem
 
 
-    def jacobian_rotation(self, i,j,c,s, diagonal):
+    def jacobian_rotation(self, i,j,c,s):#, diagonal):
 
         for m in range(self.n): # TODO
             self.A[i][m] = c*self.A[i][m] + s*self.A[j][m]
@@ -64,8 +64,8 @@ class Matrix:
             self.A[l][i] = c*self.A[l][i] + s*self.A[l][j]
             self.A[l][j] = -s*self.A[l][i] + c*self.A[l][j]
 
-        diagonal[i] = self.A[i][i]
-        diagonal[j] = self.A[j][j]
+        #diagonal[i] = self.A[i][i]
+        #diagonal[j] = self.A[j][j]
 
 
 
@@ -89,9 +89,10 @@ class Matrix:
                 r = abs(q)/(2*d)
                 c = sqrt(0.5+r)
                 s = sqrt(0.5-r)*sign(p*q)
-
-            self.jacobian_rotation(i,j,c,s,diagonal)
+            self.jacobian_rotation(i,j,c,s)#,diagonal)
             K+=1
+            print(K)
+
 
         q = 0.001
         delta = [0] * n
@@ -100,6 +101,8 @@ class Matrix:
                 delta[i] = abs((diagonal[i]-self.A[i][i])/self.A[i][i])
             else:
                 delta[i] = abs(diagonal[i]-self.A[i][i])
+        print ((np.array(self.A)))
+        print (diagonal)
         return max(delta), K
 #        q = 0.001
 #        for i in range(n):
@@ -123,15 +126,15 @@ if __name__ == "__main__":
 Группа: 8\n")
 #    size,ranges = [int(a) for a in input("Enter size and range: (10,100,1000) : ").split()]
     print()
-    size = 30
+    size = 10
     ranges = 10
-    lamb = 50
-    eps = 10**(-9)
+    lamb = 2
+    eps = 10**(-5)
 
     count_succes = 0
     acc = []; count = []
     while count_succes<10:
-        m = Matrix(size,ranges)
+        m = Matrix(size,ranges, lamb)
         a,k = m.calculation(1000000000, eps)
         acc.append(a)
         count.append(k)
@@ -140,4 +143,5 @@ if __name__ == "__main__":
     a = sum(acc)/len(acc)
     c = sum(count)/len(count)
     print("size=%d,ranges=%d,lamb=%d,eps\n"% (size,ranges, lamb))
-    print("Error: %.3g" % a)
+    print("Accuracy: %.3g" % a)
+    print(acc)
