@@ -35,7 +35,6 @@ class Matrix:
         self.H = np.eye(size)-W
 
         self.A = self.H@self.l@self.H.T
-        print(self.A)
 
     def show(self):
         print("Matrix:")
@@ -55,14 +54,26 @@ class Matrix:
         return max_row, max_col, max_elem
 
 
-    def jacobian_rotation(i,j,c,s):
-       pass
+    def jacobian_rotation(self, i,j,c,s, diagonal):
+
+        for m in range(self.n): # TODO
+            self.A[i][m] = c*self.A[i][m] + s*self.A[j][m]
+            self.A[j][m] = -s*self.A[i][m] + c*self.A[j][m]
+
+        for l in range(self.n): # TODO
+            self.A[l][i] = c*self.A[l][i] + s*self.A[l][j]
+            self.A[l][j] = -s*self.A[l][i] + c*self.A[l][j]
+
+        diagonal[i] = self.A[i][i]
+        diagonal[j] = self.A[j][j]
+
 
 
     def calculation(self, M, eps):
         n = self.n
         K = 0
-        diagonal = np.diag(self.A) # take diagonal of matrix
+        diagonal = np.diag(self.A).tolist() # take diagonal of matrix
+        self.A = self.A.tolist()
         while K < M:
             i, j, max_elem = self.findMaxElem()
 
@@ -72,7 +83,6 @@ class Matrix:
             p = 2*self.A[i][j]
             q = self.A[i][i] - self.A[j][j]
             d = sqrt(p*p + q*q)
-
             if (q == 0):
                 c = s = sqrt(2)/2
             else:
@@ -80,11 +90,17 @@ class Matrix:
                 c = sqrt(0.5+r)
                 s = sqrt(0.5-r)*sign(p*q)
 
-            self.jacobian_rotation(i,j,c,s)
-
-
+            self.jacobian_rotation(i,j,c,s,diagonal)
             K+=1
 
+        q = 0.001
+        delta = [0] * n
+        for i in range(n):
+            if abs(diagonal[i]-self.A[i][i]) > q:
+                delta[i] = abs((diagonal[i]-self.A[i][i])/self.A[i][i])
+            else:
+                delta[i] = abs(diagonal[i]-self.A[i][i])
+        return max(delta), K
 #        q = 0.001
 #        for i in range(n):
 #            if abs(x[i]-self.x[i]) > q:
@@ -93,21 +109,6 @@ class Matrix:
 #                delta[i] = abs(x[i]-self.x[i])
 #
 #        return max(delta)
-        return 0
-
-
-#MAX_VNEDIAG_ELEM
-#NUMBER_OF_STEP
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -122,17 +123,21 @@ if __name__ == "__main__":
 Группа: 8\n")
 #    size,ranges = [int(a) for a in input("Enter size and range: (10,100,1000) : ").split()]
     print()
-    size = 4
+    size = 30
     ranges = 10
+    lamb = 50
+    eps = 10**(-9)
 
     count_succes = 0
-    acc = [] ; err = []
+    acc = []; count = []
     while count_succes<10:
         m = Matrix(size,ranges)
-        e = m.calculation(10,10)
-        err.append(e)
-        count_succes += 11
+        a,k = m.calculation(1000000000, eps)
+        acc.append(a)
+        count.append(k)
+        count_succes += 1
 
-#    e = sum(err)/len(err)
-#    print("Input ", size,ranges)
-#    print("Error: %.3g" % e)
+    a = sum(acc)/len(acc)
+    c = sum(count)/len(count)
+    print("size=%d,ranges=%d,lamb=%d,eps\n"% (size,ranges, lamb))
+    print("Error: %.3g" % a)
