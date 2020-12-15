@@ -92,7 +92,7 @@ class Matrix:
             tmp[j][m] = -s*self.A[i][m] + c*self.A[j][m]
 
 
-        tmp = self.A
+        self.A = tmp
         for l in range(self.n): # TODO
             tmp[l][i] = c*self.A[l][i]+ s*self.A[l][j]
             tmp[l][j] = -s*self.A[l][i]+ c*self.A[l][j]

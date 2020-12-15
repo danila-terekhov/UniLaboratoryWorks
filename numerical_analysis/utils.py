@@ -1,2 +1,2 @@
 def maх(x):
-    return max(x)/10000000
+    return max(x)/100000
