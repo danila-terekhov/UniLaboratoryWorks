@@ -6,9 +6,10 @@
 
 class Scene3D : public Camera3D
 {
-	Model3D model;
+
 
 public:
+	Model3D model;
 	Scene3D(double X0, double Y0, double px, double py) : Camera3D(X0, Y0, px, py) {}
 
 	void setModel(string vert, string faces) {

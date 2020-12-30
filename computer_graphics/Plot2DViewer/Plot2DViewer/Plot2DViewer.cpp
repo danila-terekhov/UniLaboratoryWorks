@@ -43,7 +43,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 // В основном модуле объявляется только одна глобальная переменная - создаётся объект класса Scene2D
 // Все дальнейшие действия осуществляются посредством обращения к методам, реализованным в этом классе
-Scene2D scene(X0, Y0, px, py);
+Scene3D scene(X0, Y0, px, py);
 
 LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// оконная процедура принимает и обрабатывает все сообщения, отправленные окну
 {
@@ -51,7 +51,7 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 	{
 	case WM_CREATE:
 	{
-		scene.setModel("Vertices.txt", "Edges.txt");
+		scene.setModel("Vertices3D.txt", "Faces.txt");
 	}
 	case WM_PAINT:
 	{
@@ -60,6 +60,8 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		//scene.Plot(dc, Sinusoid);
 		//scene.MyPlot(dc, paramEllX, paramEllY);
 		scene.Render(dc);
+		MoveToEx(dc, 1, 1, 0);
+		LineTo(dc, 100, 100);
 		// Вызов реализованного в классе Scene2D метода, отвечающего за отрисовку графика синусоиды
 		ReleaseDC(hWnd, dc);
 		return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -80,25 +82,25 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		{
 
 		case VK_NUMPAD3:
-			scene.apply(Translation(0.5, 0));
+			scene.apply(Translation(0.5, 0, 0));
 			break;
 		case VK_NUMPAD1:
-			scene.apply(Translation(-0.5, 0));
+			scene.apply(Translation(-0.5, 0, 0));
 			break;
 		case VK_NUMPAD5:
-			scene.apply(Translation(0, 0.5));
+			scene.apply(Translation(0, 0.5, 0));
 			break;
 		case VK_NUMPAD2:
-			scene.apply(Translation(0, -0.5));
+			scene.apply(Translation(0, -0.5, 0));
 			break;
 
 		case VK_NUMPAD4:
-			scene.apply(Rotation(3.14 / 36));
+			scene.apply(RotationX(3.14 / 36));
 			break;
 		case VK_NUMPAD6:
-			scene.apply(Rotation(-3.14 / 36));
+			scene.apply(RotationX(-3.14 / 36));
 			break;
-
+/*
 		case VK_NUMPAD7:
 			scene.apply(Mapping(OX));
 			break;
@@ -108,20 +110,14 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		case VK_NUMPAD9:
 			scene.apply(Mapping(OO));
 			break;
-		case VK_NUMPAD0:
-		{
-			//int x = scene.model.getVertexX(2);
-			//int y = scene.model.getVertexY(2);
-			scene.Rotate(3.14 / 36, 1, 4);
-			break;
-		}
+*/
 
 		case VK_OEM_PLUS:
-			scene.apply(Scaling(1.2, 1.2));
+			scene.apply(Scaling(1.2, 1.2, 1.2));
 			break;
 
 		case VK_OEM_MINUS:
-			scene.apply(Scaling(0.8, 0.8));
+			scene.apply(Scaling(0.8, 0.8, 0.8));
 			break;
 
 

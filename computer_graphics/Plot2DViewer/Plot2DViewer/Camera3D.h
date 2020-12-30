@@ -38,9 +38,9 @@ public:
 		Camera2D(X0, Y0, px, py), Ov(), T(), N()
 	{
 		D = 16;
-		T	(0, 1, 0);
-		Ov	(0, 0, 0);
-		N	(0, 0, 1);
+		T(0, 1, 0);
+		Ov(10, 10, 10);
+		N(0, 0, 1);
 		updateCamera();
 	}
 
@@ -55,7 +55,7 @@ public:
 		double T1[] = {
 			1, 0, 0, 0,
 			0, 1, 0 ,0,
-			0, 0, -(1 / D), 1
+			0, 0, -1/D, 1
 		};
 		ViewToProject = Matrix<>(3, 4, T1);
 

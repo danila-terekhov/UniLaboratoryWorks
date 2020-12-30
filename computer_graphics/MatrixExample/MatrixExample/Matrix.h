@@ -12,18 +12,19 @@ class Matrix
 private:
 	//int size;
 	int rows, cols;
-	Cell** cells;
+
 	void AllocateCells(int, int);
 	void FreeCells();
 
 public:
+	Cell** cells;
 	Matrix() : rows(0), cols(0), cells(nullptr) {}	// Конструктор по умолчанию
 	Matrix(const Matrix&);					// Конструктор копирования
 	Matrix(int, int);							// Конструктор нулевой матрицы
 	Matrix(int, int, Cell*);						// Конструктор матрицы из списка
 	~Matrix();								// Деструктор
 	void Resize(int, int);
-	void set(int x, int y) { cells[i-1][j-1] = 1; }
+	void set(int i, int j) { cells[i-1][j-1] = 1; }
 
 	Cell& operator()(int i, int j) { return cells[i - 1][j - 1]; }
 

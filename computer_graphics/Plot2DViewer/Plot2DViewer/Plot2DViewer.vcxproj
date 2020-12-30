@@ -77,6 +77,7 @@
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Edges3D.txt" />
     <Text Include="Faces.txt" />
     <Text Include="Vertices3D.txt" />
   </ItemGroup>

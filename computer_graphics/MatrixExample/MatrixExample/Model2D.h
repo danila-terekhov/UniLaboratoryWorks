@@ -58,7 +58,11 @@ Model2D::Model2D(string verticesFile) : CumulativeAT(Identity3D()) {
 	int M = std::count(s.begin(), s.end(), ' ') + 1;
 	vF.seekg(0);
 
-	Vertices.Resize(3, M);
+	Vertices.Resize(4, M);
+	Edges.Resize(M, M);
+	for (int i = 0; i < M; i++)
+		for (int j = 0; j < M; j++)
+			Edges.cells[i][j] = 0;
 
 	vF >> Vertices;
 	InitialVertices = Vertices;

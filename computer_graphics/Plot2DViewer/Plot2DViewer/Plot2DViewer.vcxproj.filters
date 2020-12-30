@@ -49,5 +49,8 @@
     <Text Include="Vertices3D.txt">
       <Filter>header files</Filter>
     </Text>
+    <Text Include="Edges3D.txt">
+      <Filter>header files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

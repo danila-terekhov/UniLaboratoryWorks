@@ -14,7 +14,7 @@ public:
 	Vector3D(const Vector3D<Cell>& V) : Matrix<Cell>(V) {}
 	Vector3D(const Matrix<Cell>& M) : Matrix<Cell>(M) {}
 
-	Cell operator() (int i) { return (i >= 0 && i <= 3) ? this->cells[0][i] : -1; }
+	Cell operator() (int i) { return (i >= 0 && i <= 3) ? this->cells[0][i-1] : -1; }
 	void operator() (int i, Cell data) { this->cells[0][i - 1] = data; }
 	void operator() (Cell i, Cell j, Cell k) { this->cells[0][0] = i; this->cells[0][1] = j; this->cells[0][2] = k; }
 
@@ -33,7 +33,10 @@ public:
 		return temp;
 	}
 	double Norm() {
-		return sqrt(ScalarProd(*this));
+		double sum = 0;
+		for (int i = 0; i < 3; ++i)
+			sum += this->cells[0][i] * this->cells[0][i];
+		return sqrt(sum);
 	}
 };
 
