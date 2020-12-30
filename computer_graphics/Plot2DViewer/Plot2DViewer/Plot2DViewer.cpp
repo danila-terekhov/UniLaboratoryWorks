@@ -60,8 +60,6 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		//scene.Plot(dc, Sinusoid);
 		//scene.MyPlot(dc, paramEllX, paramEllY);
 		scene.Render(dc);
-		MoveToEx(dc, 1, 1, 0);
-		LineTo(dc, 100, 100);
 		// Вызов реализованного в классе Scene2D метода, отвечающего за отрисовку графика синусоиды
 		ReleaseDC(hWnd, dc);
 		return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -95,10 +93,10 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			break;
 
 		case VK_NUMPAD4:
-			scene.apply(RotationX(3.14 / 36));
+			scene.apply(RotationY(3.14 / 36));
 			break;
 		case VK_NUMPAD6:
-			scene.apply(RotationX(-3.14 / 36));
+			scene.apply(RotationY(-3.14 / 36));
 			break;
 /*
 		case VK_NUMPAD7:
