@@ -23,6 +23,7 @@ public:
 	Matrix(int, int, Cell*);						// Конструктор матрицы из списка
 	~Matrix();								// Деструктор
 	void Resize(int, int);
+	void set(int x, int y) { cells[i-1][j-1] = 1; }
 
 	Cell& operator()(int i, int j) { return cells[i - 1][j - 1]; }
 

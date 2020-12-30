@@ -23,6 +23,15 @@ Matrix<> Identity()
 		0, 0, 1 };
 	return Matrix<>(3, 3, T);
 }
+Matrix<> Identity3D()
+{
+	double T[] = {
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+	    0, 0, 0, 1};
+	return Matrix<>(4, 4, T);
+}
 // Rotation(t) - поворот на угол t;
 Matrix<> Rotation(double t)
 {

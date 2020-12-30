@@ -7,7 +7,7 @@ constexpr auto B = 3;
 double					// Исходные значения параметров X0, Y0, px, py
 X0 = 200,
 Y0 = 200,
-px = 50,
+px = 10,
 py = 100;
 
 double Parabola(double x)

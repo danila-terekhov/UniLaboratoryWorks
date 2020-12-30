@@ -76,12 +76,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MatrixExample.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="AffineTransform.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Model2D.h" />
+    <ClInclude Include="Model3D.h" />
+    <ClInclude Include="Vector3D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MatrixExample.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

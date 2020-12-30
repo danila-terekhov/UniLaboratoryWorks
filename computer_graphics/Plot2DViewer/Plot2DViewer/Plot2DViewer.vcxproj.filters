@@ -19,6 +19,18 @@
     <ClInclude Include="Model2D.h">
       <Filter>header files</Filter>
     </ClInclude>
+    <ClInclude Include="Model3D.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera3D.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene3D.h">
+      <Filter>header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="header files">
@@ -29,5 +41,13 @@
     <ClCompile Include="Plot2DViewer.cpp">
       <Filter>header files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Faces.txt">
+      <Filter>header files</Filter>
+    </Text>
+    <Text Include="Vertices3D.txt">
+      <Filter>header files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

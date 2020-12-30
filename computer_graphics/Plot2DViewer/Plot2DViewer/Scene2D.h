@@ -10,16 +10,18 @@ class Scene2D : public Camera2D
 {
 private:
 	typedef double (*Func)(double);
-	Model2D model;
+
+	double delta;
 public:
-	Scene2D(double X0, double Y0, double px, double py) : Camera2D(X0, Y0, px, py)
+	Model2D model;
+	Scene2D(double X0, double Y0, double px, double py) : Camera2D(X0, Y0, px, py), delta(0)
 	{
 	}
 	void setModel(string vert, string edg) {
 		model = Model2D(vert, edg);
 	}
 	void Render(HDC dc, bool axes = true) {
-		HPEN pen;
+		//HPEN pen;
 		if (axes)
 			Axes(dc);
 
@@ -37,10 +39,16 @@ public:
 					LineTo(dc, model.getVertexX(j), model.getVertexY(j));
 				}
 
-		DeleteObject(SelectObject(dc, pen));
+		//DeleteObject(SelectObject(dc, pen));
 	}
 	void apply(Matrix<double> A) {
 		model.Apply(A);
+	}
+	void Rotate(double add_delta, double x, double y) {
+
+		model.Apply(Translation(-x, -y));
+		model.Apply(Rotation(add_delta));
+		model.Apply(Translation(x, y));
 	}
 	
 	void Plot(HDC dc, Func f, bool axes = true)

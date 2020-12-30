@@ -67,10 +67,18 @@
   <ItemGroup>
     <ClInclude Include="AffineTransform.h" />
     <ClInclude Include="Camera2D.h" />
+    <ClInclude Include="Camera3D.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Model2D.h" />
+    <ClInclude Include="Model3D.h" />
     <ClInclude Include="Scene2D.h" />
+    <ClInclude Include="Scene3D.h" />
+    <ClInclude Include="Vector3D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Faces.txt" />
+    <Text Include="Vertices3D.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
