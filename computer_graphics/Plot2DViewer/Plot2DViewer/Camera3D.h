@@ -45,7 +45,7 @@ public:
 	}
 
 
-	void updateCamera() // обновление матриц перехода.
+	void updateCamera()
 	{
 		Vector3D<> k = N * (1.0 / N.Norm());
 		Vector3D<> i = (T.VectorProd(N)) * (1.0 / (T.VectorProd(N)).Norm());
