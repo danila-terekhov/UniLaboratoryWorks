@@ -98,6 +98,26 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		case VK_NUMPAD6:
 			scene.apply(RotationY(-3.14 / 36));
 			break;
+		case VK_NUMPAD0:
+		{
+			double x1, y1, z1, x2, y2, z2;
+			int N = 1, 
+				M = 5;
+			x1 = scene.model.getVertexX(N);
+			y1 = scene.model.getVertexY(N);
+			z1 = scene.model.getVertexZ(N);
+
+			x2 = scene.model.getVertexX(M);
+			y2 = scene.model.getVertexY(M);
+			z2 = scene.model.getVertexZ(M);
+
+			scene.CustomRotation(x1, y1, z1, x2, y2, z2, 3.14 / 36);;
+
+
+
+
+			break;
+		}
 /*
 		case VK_NUMPAD7:
 			scene.apply(Mapping(OX));

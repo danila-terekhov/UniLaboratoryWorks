@@ -115,7 +115,7 @@ Matrix<> Rotation(double c, double s)
 		0,   0,    1 };
 	return Matrix<>(3, 3, T);
 }
-Matrix<> rotationX(double c, double s)
+Matrix<> RotationX(double c, double s)
 {
 	double d = 1.0 / sqrt(c * c + s * s);
 	double T[] = {
@@ -125,7 +125,7 @@ Matrix<> rotationX(double c, double s)
 		0, 0,	0,	  1 };
 	return Matrix<>(4, 4, T);
 }
-Matrix<> rotationY(double c, double s)
+Matrix<> RotationY(double c, double s)
 {
 	double d = 1.0 / sqrt(c * c + s * s);
 	double T[16] = {
@@ -135,7 +135,7 @@ Matrix<> rotationY(double c, double s)
 		0,	  0, 0,   1 };
 	return Matrix<>(4, 4, T);
 }
-Matrix<> rotationZ(double c, double s)
+Matrix<> RotationZ(double c, double s)
 {
 	double d = 1.0 / sqrt(c * c + s * s);
 	double T[16] = {
