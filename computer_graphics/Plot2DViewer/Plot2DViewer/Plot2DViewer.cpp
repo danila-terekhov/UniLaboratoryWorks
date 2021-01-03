@@ -112,10 +112,6 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			z2 = scene.model.getVertexZ(M);
 
 			scene.CustomRotation(x1, y1, z1, x2, y2, z2, 3.14 / 36);;
-
-
-
-
 			break;
 		}
 /*

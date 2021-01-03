@@ -25,7 +25,6 @@ public:
 
 	void Render(HDC dc) {
 		//HPEN pen;
-		Axes(dc);
 
 		int rows = model.GetEdges().getRows();
 		int cols = model.GetEdges().getCols();
@@ -60,7 +59,6 @@ public:
 			double tmp = sqrt(B * B + C * C);
 
 			apply(Translation(-x1, -y1, -z1));	
-
 			apply(RotationX(B, -C));
 			apply(RotationZ(A, -tmp));
 
@@ -68,7 +66,6 @@ public:
 
 			apply(RotationZ(A, tmp));
 			apply(RotationX(B, C));
-
 			apply(Translation(x1, y1, z1));
 		}
 		else {
