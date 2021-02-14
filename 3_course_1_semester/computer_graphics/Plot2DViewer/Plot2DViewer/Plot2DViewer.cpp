@@ -2,6 +2,7 @@
 #include <windowsx.h>
 #include "Data.h"
 #include "Scene2D.h"
+#include "Scene3D.h"
 
 LRESULT _stdcall WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);						// прототип оконной процедуры
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)		// основная процедура
@@ -91,7 +92,6 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 			scene.apply(Translation(0, -0.5));
 			break;
 
-
 		case VK_NUMPAD4:
 			scene.apply(Rotation(3.14 / 36));
 			break;
@@ -108,6 +108,18 @@ LRESULT _stdcall WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)		// 
 		case VK_NUMPAD9:
 			scene.apply(Mapping(OO));
 			break;
+		case VK_NUMPAD0:
+		{
+			double x1, x2, y1, y2;
+			x1 = scene.model.getVertexX(4);
+			y1 = scene.model.getVertexY(4);
+
+			x2 = scene.model.getVertexX(5);
+			y2 = scene.model.getVertexY(5);
+
+			scene.Mapping(x1, y1, x2, y2);
+			break;
+		}
 
 		case VK_OEM_PLUS:
 			scene.apply(Scaling(1.2, 1.2));

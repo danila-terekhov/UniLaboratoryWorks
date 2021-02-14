@@ -1,5 +1,4 @@
-﻿#pragma once
-#ifndef MATRIX_H
+﻿#ifndef MATRIX_H
 #define MATRIX_H
 
 #include <iostream>
@@ -13,11 +12,12 @@ class Matrix
 private:
 	//int size;
 	int rows, cols;
-	Cell** cells;
+
 	void AllocateCells(int, int);
 	void FreeCells();
 
 public:
+	Cell** cells;
 	int getRows() { return rows; }
 	int getCols() { return cols; }
 	Matrix() : rows(0), cols(0), cells(nullptr) {}	// Конструктор по умолчанию
@@ -26,6 +26,7 @@ public:
 	Matrix(int, int, Cell*);						// Конструктор матрицы из списка
 	~Matrix();								// Деструктор
 	void Resize(int, int);
+	void set(int x, int y) { cells[x - 1][y - 1] = 1; }
 
 	Cell& operator()(int i, int j) { return cells[i - 1][j - 1]; }
 
@@ -33,6 +34,7 @@ public:
 	Matrix  operator + (const Matrix&);		// Сложение матриц
 	Matrix  operator - (const Matrix&);		// Вычитание матриц
 	Matrix  operator * (const Matrix&);		// Умножение матриц
+	Matrix  operator * (double num);
 
 	friend istream& operator >> <> (istream&, Matrix&);			// Перегрузка оператора >> для ввода матрицы
 	friend ostream& operator << <> (ostream&, const Matrix&);	// Перегрузка оператора << для вывода матрицы
@@ -143,7 +145,16 @@ Matrix<Cell> Matrix<Cell>::operator*(const Matrix& M)
 
 	return res;
 }
+template <typename Cell>
+Matrix<Cell> Matrix<Cell>::operator*(double num)
+{
+	Matrix<Cell> res(*this);
 
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			res.cells[i][j] *= num;
+	return res;
+}
 template <typename Cell>
 void Matrix<Cell>::AllocateCells(int rows, int cols)
 {
