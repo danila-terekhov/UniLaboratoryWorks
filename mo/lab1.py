@@ -11,13 +11,14 @@ k = 0
 # step2
 x = (a+b)/2
 abs_l = b-a
-f_x = f(x)
 
 while 1:
     print(f"K={k}")
     # step 3
     y = a + abs_l/4
     z = b - abs_l/4
+
+    f_x = f(x)
     f_y = f(y)
     f_z = f(z)
     print(f"step3: y={y},z={z},f(y)={f_y},f(z)={f_z}")
@@ -42,7 +43,6 @@ while 1:
     if (abs_l <= e):
         break
     else:
-        f_x = f(x)
         k = k+1
 
 x_star = (a+b)/2
