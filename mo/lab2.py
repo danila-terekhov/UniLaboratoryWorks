@@ -37,8 +37,8 @@ while k < Nmax:
 
 print("x =", end=" ")
 for i in range(len(x)):
-    print("%.3g" % round(x[i]), end=" ")
+    print("%.3g" % round(x[i], 3), end=" ")
 
 print()
-print("f(x) = %.3g" % round(f(x)))
+print("f(x) = %.3g" % round(f(x),3))
 print("k = %g" % k)
