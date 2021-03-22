@@ -9,18 +9,19 @@ body {
 h1,h2,h3 {
 	line-height:1.2;
 }
-a:link, a:visited {
-	color: #140d16;
-	background-color: #CEB5D2;
+input, textarea, select, a:link, a:visited {
+	color: #e9e3f0;
+	background-color: #140d16;
+	border-color: #e9e3f0;
+	border-width: 2;
 	border-style: solid;
-	border-color: #AB8FAC;
-	font-family: iosevka;
+	font-family: 1.2em/1.62 iosevka sans-serif;
 	padding: 5px 15px;
-	text-align: center;
+	border-radius:10px;
 	text-decoration: none;
 	display: inline-block;
 	opacity: 0.9;
 }
-a:hover, a:active {
+input:hover, textarea:hover, select:hover, a:hover, a:active {
   opacity: 1.0;
 }
