@@ -1,27 +1,52 @@
-body {
-	color: #e9e3f0;
-	background-color: #140d16;
-	margin:1em auto;
-	max-width:40em;
-	padding:0 .62em;
-	font-family: 1.2em/1.62 iosevka sans-serif;
+body, html {
+    height: 100%;
+    width: 100%;
+    min-width: 1000px;
+    margin: 0;
+    padding: 0;
+    color: #e9e3f0;
+    background-color: #140d16;
+    font-family: 1.2em/1.62 iosevka;
 }
-h1,h2,h3 {
-	line-height:1.2;
+.header{
+    background: #28282a;
+    padding: 50px;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
 }
-input, textarea, select, a:link, a:visited {
-	color: #e9e3f0;
-	background-color: #140d16;
-	border-color: #e9e3f0;
-	border-width: 2;
-	border-style: solid;
-	font-family: 1.2em/1.62 iosevka sans-serif;
-	padding: 5px 15px;
-	border-radius:10px;
-	text-decoration: none;
-	display: inline-block;
-	opacity: 0.9;
+.wrapper{
+    min-width: 100%;
+    position: relative;
+    margin: 0 auto;
 }
-input:hover, textarea:hover, select:hover, a:hover, a:active {
-  opacity: 1.0;
+.right-sidebar{
+    background: #AB8FAC;
+    float: right;
+    width: 25%;
+    padding-bottom: 100px;
+    padding-top: 1em;
+    height: 80%;
+    text-align: center;
+}
+.content{
+    background: #97969b;
+    float: left;
+    padding-top: 1em;
+    width: 75%;
+    height: 80%;
+    padding-bottom: 100px;
+    text-align: center;
+}
+.clear {
+    clear: both;
+}
+.footer{
+    clear: both;
+    position: relative;
+    background: #28282a;
+    padding: 50px 0;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
 }
