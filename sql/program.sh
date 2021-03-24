@@ -2,13 +2,16 @@
 # vim: set expandtab shiftwidth=2 tabstop=2 :
 cache_file=/tmp/kek
 prmpt="What do you want? "
-export FZF_DEFAULT_OPTS="--prompt='$prmpt' --inline-info --reverse --height 10%"
+fzf_upd(){
+  export FZF_DEFAULT_OPTS="--prompt='$prmpt' --inline-info --reverse --height 10%"
+}
+fzf_upd
 
 make_query(){
   echo "use lab;" > $cache_file
   echo "$1" >> $cache_file
   #docker exec -i mysql sh -c 'exec mysql -uuser -puser 2>/dev/null ' < $cache_file | tail -n+2
-  echo 1
+  echo 2
 }
 #make_query "select * from users;"
 
@@ -57,11 +60,17 @@ main(){
   logged_in=0
   login
   while [[ $logged_in -ne 1 ]]; do
-    [[ $var=="login" ]] || echo "You failed"
+    if [ $var == "login" ] ; then
+      prmpt="You are failed. "
+      
+    else
+      prmpt="You are created new account. "
+    fi
+    fzf_upd
     login
   done
   prmpt="$login "
-  export FZF_DEFAULT_OPTS="--prompt='$prmpt' --inline-info --reverse --height 10%"
+  fzf_upd
 
   while true; do
     work
