@@ -1,0 +1,21 @@
+<html>
+
+
+
+<frameset cols="20%,20%,20%,20%,20%" >
+
+  <frame name="1Frame" scrolling="auto" noresize>
+  <frame name="2Frame" scrolling="auto" noresize>
+
+  <frameset rows="50%,*">
+     <frame src="frame.htm" name="3Frame" scrolling="auto" noresize>
+     <frame name="4Frame" scrolling="auto" noresize>
+   </frameset>
+
+  <frame name="5Frame" scrolling="auto" noresize>
+  <frame name="6Frame" scrolling="auto" noresize>
+
+</frameset>
+
+
+</html>
