@@ -12,7 +12,7 @@ SET NAMES utf8mb4;
 DROP TABLE IF EXISTS `articles`;
 CREATE TABLE `articles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `date` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `title` varchar(150) NOT NULL,
   `content` blob NOT NULL,
   `writer_id` int unsigned DEFAULT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE `subscriptions` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `writer_id` int unsigned NOT NULL,
   `reader_id` int unsigned NOT NULL,
-  `date` datetime NOT NULL,
+  `date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
