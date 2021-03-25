@@ -56,7 +56,7 @@ login_loop(){
   fzf_upd
 }
 show_all_articles(){
-make_query "select mail, date, title from articles join users on users.id = articles.writer_id" | less
+make_query "select mail, date, title from articles left join users on users.id = articles.writer_id" | less
 }
 search_writer(){
 prmpt="Pls select writer "
@@ -104,10 +104,18 @@ article=$(make_query "select title from articles" | fzf)
 make_query "select content from articles where title='$article'"| sed -e "s//\n/" -e "s/\\\n//" | less
 }
 delete_my_article () {
-echo "qwe"
+article=$(make_query "select title from articles where writer_id=(select id from users where mail='$login')" | fzf)
+make_query "delete from articles where title='$article'"
 }
 change_my_article(){
-echo "qwe"
+article=$(make_query "select title from articles where writer_id=(select id from users where mail='$login')" | fzf)
+[[ -z $article ]] && return
+tput sc
+read -p "Enter new title: " title
+echo  "Enter new content: C_d to stop"
+content=$(cat)
+make_query "update articles set title = '$title', content = '$content' where title='$article'"
+
 }
 work() {
   tmp=""
@@ -117,9 +125,9 @@ work() {
   tmp+="Search article via writer\n" #3.2 [x]
   tmp+="Add new subscription\n" #4        [x]
   tmp+="Show all subscriptions\n" #5      [x]
-  tmp+="Select articles by title\n" #6    []
-  tmp+="Change my article\n" #7.1         []
-  tmp+="Delete my article\n" #7.2         []
+  tmp+="Select articles by title\n" #6    [x]
+  tmp+="Change my article\n" #7.1         [x]
+  tmp+="Delete my article\n" #7.2         [x]
 
   tmp+="logout\n"
   tmp+="exit"
