@@ -101,7 +101,7 @@ make_query "select writer_id, reader_id, date from subscriptions" | fzf
 }
 select_articles_by_title(){
 article=$(make_query "select title from articles" | fzf)
-make_query "select content from articles where title='$article'"| sed -e "s//\n/" -e "s/\\\n//" | less
+make_query "select content from articles where title='$article'"| sed -e "s///"  -e "s/\\\n/\n/g" | less
 }
 delete_my_article () {
 article=$(make_query "select title from articles where writer_id=(select id from users where mail='$login')" | fzf)
