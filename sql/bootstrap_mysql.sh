@@ -13,3 +13,10 @@
 	sleep 15 && \
 	docker exec -i mysql sh -c 'exec mysql -uuser -puser' < `pwd`/script.sql
 
+[[ -n `docker ps | grep adminer` ]] || \
+docker run -d \
+--name adminer \
+-p 9000:9000 \
+-p 8080:8080 \
+--link mysql:db \
+adminer
