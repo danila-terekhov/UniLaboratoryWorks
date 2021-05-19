@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-data="input1.txt"
-rez="output1.txt"
 import math
+
+data="input1.txt"
 k=8 # константа для проверки на слишком большой шаг
 
 def f(x,y):
@@ -11,17 +11,19 @@ def f(x,y):
     #ret = math.exp(x)+y
     return ret
 
-#def solveK(h,x,y):
-#    K = list()
-#    K.append(h * f(x,y))
-#    K.append(h * f(x + h/2, y + K[0]/2))
-#    K.append(h * f(x + h, y - K[0] + 2*K[1]))
-#    return K
-h_min = MAX_ERROR=0.0001
+h_min = eps = 0
+COUNT = MAX_ERROR_COUNT = MIN_ERROR_COUNT = 0
 
-MAX_ERROR_COUNT=0
-MIN_ERROR_COUNT=0
-COUNT=0
+with open(data, 'r') as file:
+    line = file.readline().split()
+    A=float(line[0])
+    B=float(line[1])
+    C=float(line[2])
+    yc=float(line[3])
+    line = file.readline().split()
+    h_min=float(line[0])
+    eps=float(line[0])
+
 def integrate(x, y, h, pr=True):
     K = list()
     K.append(h * f(x,y))
@@ -32,14 +34,14 @@ def integrate(x, y, h, pr=True):
     err = y + K[1] # 113
     ret = abs(err - sol)
     global MAX_ERROR_COUNT, MIN_ERROR_COUNT, COUNT
+    global h_min, eps
     if (pr):
-        print("x =",x," ,y =",sol," ,ret = ",ret)
+        print("x = {:<25}, y = {:<25}, err = {:<25}".format(x,sol,ret))
         COUNT+=1
-        if (ret > MAX_ERROR):
+        if (ret > eps):
             MAX_ERROR_COUNT+=1
         if (h == h_min):
             MIN_ERROR_COUNT+=1
-
 
     return sol, ret
 
@@ -102,16 +104,7 @@ def solve(A,B,C,yc,h_min,eps):
 
 
 if __name__ == "__main__":
-    with open(data, 'r') as file:
-        line = file.readline().split()
-        A=float(line[0])
-        B=float(line[1])
-        C=float(line[2])
-        yc=float(line[3])
-        line = file.readline().split()
-        h=float(line[0])
-        eps=float(line[0])
-    solve(A,B,C,yc,h,eps)
+    solve(A,B,C,yc,h_min,eps)
     print(MAX_ERROR_COUNT)
     print(COUNT)
     print(MIN_ERROR_COUNT)
