@@ -7,8 +7,9 @@ data="input1.txt"
 k=8 # константа для проверки на слишком большой шаг
 
 def f(x,y):
-    ret = x + y
+    #ret = x + y
     #ret = math.exp(x)+y
+    ret = math.cos(y)*x
     return ret
 
 h_min = eps = 0
@@ -22,7 +23,7 @@ with open(data, 'r') as file:
     yc=float(line[3])
     line = file.readline().split()
     h_min=float(line[0])
-    eps=float(line[0])
+    eps=float(line[1])
 
 def integrate(x, y, h, pr=True):
     K = list()
