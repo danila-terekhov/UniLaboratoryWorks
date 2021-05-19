@@ -7,9 +7,11 @@ data="input1.txt"
 k=8 # константа для проверки на слишком большой шаг
 
 def f(x,y):
+    #ret = 4*x**3 + 4*y**3
+    ret = 5*x**4 + 5*y**4
     #ret = x + y
     #ret = math.exp(x)+y
-    ret = math.cos(y)*x
+    #ret = math.cos(y)*x
     return ret
 
 h_min = eps = 0
