@@ -36,7 +36,7 @@ def integrate(x, y, h, pr=True):
     global MAX_ERROR_COUNT, MIN_ERROR_COUNT, COUNT
     global h_min, eps
     if (pr):
-        print("x = {:<25}, y = {:<25}, err = {:<25}".format(x,sol,ret))
+        print("x = {:<25} y = {:<25} err = {:<25}".format(x,sol,ret))
         COUNT+=1
         if (ret > eps):
             MAX_ERROR_COUNT+=1
@@ -57,7 +57,14 @@ def solve(A,B,C,yc,h_min,eps):
     numberOfPoints = 0
     numberOfPointsWithMinStep = 0
 
-    end = B
+    if C == B:
+        dir = -1
+        end = A
+    elif C == A:
+        dir = 1
+        end = B
+
+
     h = abs((A-B)/10)
     x = C
     y = yc
@@ -65,22 +72,22 @@ def solve(A,B,C,yc,h_min,eps):
 
 
     while(True):
-        while(x + h > end):
+        while(dir*(x + h*dir) > dir*end):
             h /= 2
 
-        if not (end - (x+h) < h_min):
+        if not (abs(end - (x+h*dir)) < h_min):
             while(True):
                 if (h < h_min):
                     h = h_min
-                    x = x + h
-                    y, err = integrate(x, y, h)
+                    x = x + h*dir
+                    y, err = integrate(x, y, dir*h)
                     break
-                _, err = integrate(x, y, h, 0)
+                _, err = integrate(x, y, dir*h, 0)
                 if (err > eps):
                     h /= 2
                 else:
-                    x = x + h
-                    y, err = integrate(x, y, h)
+                    x = x + h*dir
+                    y, err = integrate(x, y, dir*h)
                     if (err < eps/k):
                         h *= 2
                     break
@@ -89,22 +96,22 @@ def solve(A,B,C,yc,h_min,eps):
                 #x_old = x
                 #x = end - h_min
                 #y, err = integrate(x, y, x-x_old)
-                y, err = integrate(end-h_min, y, end-h_min-x)
+                y, err = integrate(end-h_min*dir, y, dir*(end-h_min-x))
 
                 #x = end
                 #y, err = integrate(x, y, h_min)
-                y, err = integrate(end, y, h_min)
+                y, err = integrate(end, y, dir*(h_min))
             elif (end - x <= 1.5*h_min):
                 #x = end
-                y, err = integrate(end, y, end-x)
+                y, err = integrate(end, y, dir*(end-x))
             else:
-                y, err = integrate(x + (end-x)/2, y, (end-x)/2) #x+(end-x)/2-x)
-                y, err = integrate(end, y, (end-x)/2)
+                y, err = integrate((x + (end-x)/2)*dir, y, dir*(end-x)/2) #x+(end-x)/2-x)
+                y, err = integrate(end, y, dir*(end-x)/2)
             break
 
 
 if __name__ == "__main__":
     solve(A,B,C,yc,h_min,eps)
-    print(MAX_ERROR_COUNT)
-    print(COUNT)
-    print(MIN_ERROR_COUNT)
+    print("points =",COUNT)
+    print("notReached =",MAX_ERROR_COUNT)
+    print("h_min =",MIN_ERROR_COUNT)
