@@ -1,0 +1,47 @@
+<!DOCKTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<meta http-equiv="Content-Language" content="en-us">
+<title>Login</title>
+<link rel=stylesheet href="style.css" type="text/css">
+</head>
+<body>
+	<script>
+	function check(){
+		var regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+		let password = document.forms.login.elements.password.value;
+    		if(!regularExpression.test(password)) {
+        		alert("password should contain atleast one number and one special character and be longer than 5 char and shorter than 15");
+        	return false;
+    		}
+		return true;
+	}
+	</script>
+	<div class="wrapper">
+		<div class="header">Header</div>
+		<div class="content-login">
+<form id="logoForm" action="action.php" name="login" method="post">
+ <fieldset>
+ <legend>User information</legend>
+<label for="email">Email</label> 
+<!input id="email" placeholder="sobaka@tochka.ru" autofocus required pattern="\S+@[a-z]+\.[a-z]+"><!br>
+<input name="email" placeholder="sobaka@tochka.ru" type="email" autofocus required ><br>
+<label for="password">Password</label>
+<input name="password" type="password" required ><br>
+<label for="gender">Role</label>
+<select id="gender">
+	<option value="read">Reader</option>
+	<option value="write">Writer</option>
+</select><br>
+</fieldset>
+<p>
+<input type="submit" name="Registrate" onclick="check()"></p>
+</form>
+		</div>
+			<div class="clear"></div>
+		<div class="footer">Footer</div>
+	</div>
+
+</body>
+</html>
