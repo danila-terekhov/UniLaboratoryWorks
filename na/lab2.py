@@ -68,17 +68,29 @@ def integrate(x, y1, y2, h, f1, f2):
     return y1, y2
 
 
-def transfer(a, b):
-    pass
-        # | ->   from x=b to x=a
+def transfer(a, b, A3, B3, f1, f2, x):
+    h = -0.1
+    # | ->   from x=b to x=a
 
+    a3_tmp, b3_tmp = integrate(b, A3, B3, h, f1, f2)
 
+    for i in range(len(x)-2, -1, -1):
+        a3_tmp, b3_tmp = integrate(x[i], a3_tmp, b3_tmp, h, f1, f2)
+        return a3_tmp, b3_tmp
 
+def solve(a, b, yd, y, x):
 
+    h = 0.1
 
+    yd_tmp, y_tmp = integrate(a, yd, y, h, v, u)
+    print(0,"\tx=", a, "\ty=", y_tmp, "\ty'=", yd_tmp)
 
+    for i in range(1, len(x)):
 
+        yd_tmp, y_tmp = integrate(x[i], yd_tmp, y_tmp, h, u, v)
+        print(i,"\tx=", x[i], "\ty=", y_tmp, "\ty'=", yd_tmp)
 
+    return yd_tmp, y_tmp
 
 
 
@@ -102,7 +114,37 @@ if __name__ == "__main__":
             x.append(float(line[0]))
 
         if (A1*A1 + B1*B1 <= 0) or (A2*A2 + B2*B2 <= 0):
-            print(" Error! краевое условие ")
-            exit(1)
+            print(" Error! 4")
+            exit(4)
 
-    if A1 != 
+    c = b
+    if A2 != 0:
+        A3 = -(B2 * p(c)) / A2
+        B3 = (G2 * p(c)) / A2
+        A3, B3 = transfer(a, b, A3, B3, f11, f12, x)
+        G3 = B3
+        B3 = -A3
+        A3 = p(a)
+    elif B2 != 0:
+        phi = -A2 / (B2 * p(c))
+        psi = -G2 / B2
+        phi,psi = transfer(a, b, phi, psi, f21, f22, x)
+        G3 = psi
+        B3 = -1
+        A3 = phi * p(a)
+    else:
+        print(" Error! 2")
+        exit(2)
+
+    if A3 == A2 and B3 == B2 and G3 == G2:
+        print(" Error! 1")
+
+    D = A3*B1 - A1*B3
+    if D == 0:
+        print(" Error! 2 полученная система не совместна")
+        exit(2)
+    else:
+        yd = (G3*B1 - G1 * B3) / D
+        y = (A3*G1 - A1 * G3) / D
+        yd, y = solve(a, b, yd, y, x)
+
