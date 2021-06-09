@@ -2,6 +2,8 @@
 from collections import namedtuple
 from typing import List
 
+INPUT_FILENAME = 'input3.txt'
+OUTPUT_FILENAME = 'output3.txt'
 
 def solveTridiagonalSystem(A: List[float], C: List[float], B: List[float], F: List[float],
                            x0: float, v0: float, xN: float, vN: float, N: int):
@@ -29,8 +31,6 @@ def solveTridiagonalSystem(A: List[float], C: List[float], B: List[float], F: Li
 
     return Z
 
-INPUT_FILENAME = 'input3.txt'
-OUTPUT_FILENAME = 'output3.txt'
 
 EquationData = namedtuple('EquationData', ['c2', 'a', 'b', 'T', 'a1', 'b1', 'a2', 'b2', 'M', 'N'], defaults=[0])
 
@@ -77,7 +77,6 @@ class ThermalConductivityEquation:
 
 
             for i in range(N - 1):
-                #F[i] = - sigma * y[i + 1] - ksi * self.f(self.xi(i + 1), self.tj(j))
 
                 phi = self.f(self.xi(i), self.tj(j) + self.tau / 2)
                 F[i] = (2 * (1-self.r)/self.r)*y[i] - (1-self.r)/self.r*(y[i-1]+y[i+1]) - ksi/self.r*phi
@@ -122,7 +121,7 @@ def main():
         tj = tau * j
 
         maxError = 0
-        #outputFile.write(f'Level {j}\n')
+        outputFile.write(f'Level {j}\n')
 
         for i in range(len(y)):
             xi = passedData.a + h * i

@@ -12,7 +12,14 @@
 		<div class="header">Header</div>
 		<div class="right-sidebar">
 			 <ul>
-			  <li><a href="login.php">Profile</a></li>
+<?php
+if (isset($_COOKIE['logged_in']))
+	$profile="action.php";
+else
+	$profile="login.php";
+echo			  "<li><a href=\"".$profile."\">Profile</a></li>" ;
+
+?>
 			  <li><a href="test_db.php">TestDB</a></li>
 			</ul>
 		</div>
