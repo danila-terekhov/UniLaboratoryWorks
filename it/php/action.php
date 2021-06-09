@@ -21,7 +21,6 @@ if(isset($_POST["password"])){
 
 $link=mysqli_connect("127.0.0.1", "user", "user", "lab");
 $pass = md5($pass);
-setcookie("logged_in", 1);
 
 if (!mysqli_connect_errno()) {
 #	echo " Подключение к БД успешно<br>";
@@ -48,6 +47,7 @@ if (!mysqli_connect_errno()) {
 		<div class="right-sidebar">
 			 <ul>
 			  <li><a href="index.php">Main</a></li>
+		          <li><a href="add_article.php">Add article</a></li>
 			</ul>
 		</div>
 <div class="clear"></div>

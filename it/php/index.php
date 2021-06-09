@@ -24,9 +24,13 @@ echo			  "<li><a href=\"".$profile."\">Profile</a></li>" ;
 			</ul>
 		</div>
 		<div class="content">
-			Какой-то текст, много текста, какой-то текст, много текста,<br>
-			Какой-то текст, много текста, какой-то текст, много текста,<br>
-			Какой-то текст, много текста, какой-то текст, много текста,<br>
+			<?php
+			$link=mysqli_connect("127.0.0.1", "user", "user", "lab");
+			$articles = mysqli_query($link, "select title,content from articles");
+			while ($row = mysqli_fetch_row($articles)) {
+				echo $row[0]."<br>";
+			}
+			?>
 		</div>
 			<div class="clear"></div>
 		<div class="footer">Footer</div>
