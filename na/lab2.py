@@ -69,25 +69,25 @@ def integrate(x, y1, y2, h, f1, f2):
 
 
 def transfer(a, b, A3, B3, f1, f2, x):
-    h = -0.1
+    h = -1*abs(x[1] - x[0])
     # | ->   from x=b to x=a
 
     a3_tmp, b3_tmp = integrate(b, A3, B3, h, f1, f2)
 
     for i in range(len(x)-2, -1, -1):
         a3_tmp, b3_tmp = integrate(x[i], a3_tmp, b3_tmp, h, f1, f2)
-        return a3_tmp, b3_tmp
+    return a3_tmp, b3_tmp
 
 def solve(a, b, yd, y, x):
 
-    h = 0.1
+    h = abs(x[1]-x[0])
 
     yd_tmp, y_tmp = integrate(a, yd, y, h, v, u)
     print(0,"\tx=", a, "\ty=", y_tmp, "\ty'=", yd_tmp)
 
     for i in range(1, len(x)):
 
-        yd_tmp, y_tmp = integrate(x[i], yd_tmp, y_tmp, h, u, v)
+        yd_tmp, y_tmp = integrate(x[i], yd_tmp, y_tmp, h, v, u)
         print(i,"\tx=", x[i], "\ty=", y_tmp, "\ty'=", yd_tmp)
 
     return yd_tmp, y_tmp
@@ -95,6 +95,7 @@ def solve(a, b, yd, y, x):
 
 
 if __name__ == "__main__":
+    global n
     with open(data, 'r') as file:
         line = file.readline().split()
         A1=float(line[0])
@@ -113,9 +114,10 @@ if __name__ == "__main__":
             line = file.readline().split()
             x.append(float(line[0]))
 
-        if (A1*A1 + B1*B1 <= 0) or (A2*A2 + B2*B2 <= 0):
-            print(" Error! 4")
-            exit(4)
+    if (A1*A1 + B1*B1 <= 0) or (A2*A2 + B2*B2 <= 0):
+        print(" Error! 4")
+        exit(4)
+
 
     c = b
     if A2 != 0:
