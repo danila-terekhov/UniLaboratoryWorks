@@ -28,7 +28,10 @@ echo			  "<li><a href=\"".$profile."\">Profile</a></li>" ;
 			$link=mysqli_connect("127.0.0.1", "user", "user", "lab");
 			$articles = mysqli_query($link, "select title,content from articles");
 			while ($row = mysqli_fetch_row($articles)) {
-				echo $row[0]."<br>";
+				#echo $row[0]."<br>";
+				$title = $row[0];
+
+				echo "<li><a href=\"article_template.php?title=".$title."\">".$title."<br></li>";
 			}
 			?>
 		</div>

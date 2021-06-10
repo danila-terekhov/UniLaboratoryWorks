@@ -25,6 +25,7 @@ $pass = md5($pass);
 if (!mysqli_connect_errno()) {
 #	echo " Подключение к БД успешно<br>";
 	$res = mysqli_query($link, "select password from users where mail = '$email'");
+	setcookie("logged_in", 1);
 	if ($res->num_rows != 1)
 		echo "Нет такого пользователя!<br>";
 		#return false;
