@@ -24,6 +24,7 @@ echo			  "<li><a href=\"".$profile."\">Profile</a></li>" ;
 			</ul>
 		</div>
 		<div class="content">
+			<ul>
 			<?php
 			$link=mysqli_connect("127.0.0.1", "user", "user", "lab");
 			$articles = mysqli_query($link, "select title,content from articles");

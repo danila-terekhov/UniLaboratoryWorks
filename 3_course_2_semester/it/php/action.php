@@ -22,10 +22,10 @@ if(isset($_POST["password"])){
 $link=mysqli_connect("127.0.0.1", "user", "user", "lab");
 $pass = md5($pass);
 
+setcookie("logged_in", 1);
 if (!mysqli_connect_errno()) {
 #	echo " Подключение к БД успешно<br>";
 	$res = mysqli_query($link, "select password from users where mail = '$email'");
-	setcookie("logged_in", 1);
 	if ($res->num_rows != 1)
 		echo "Нет такого пользователя!<br>";
 		#return false;
@@ -34,9 +34,9 @@ if (!mysqli_connect_errno()) {
 		$real_pass = $row[0];
 		echo $real_pass."<br>";
 		echo $pass."<br>";
-		if ($pass === $real_pass)
+		if ($pass === $real_pass) {
 			echo "You are logged in!<br>";
-		else
+		} else
 			echo "Wrong password!<br>";
 	}
 } else {
