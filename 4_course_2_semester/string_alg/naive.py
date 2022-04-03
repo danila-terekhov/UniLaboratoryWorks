@@ -17,6 +17,6 @@ def naive_search(text: str, substr: str):
     return start_pos
 
 
-example = 'aaabaaaa'
-word = 'aaa'
-print(naive_search(example, word))
+string = 'aaabaaaa'
+substring = 'aaa'
+print(naive_search(string, substring))
