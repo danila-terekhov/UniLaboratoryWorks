@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# O(n) <~ O(m * (n - m)) < O(n^2)
 
 def naive_search(text: str, substr: str):
     start_pos = []
