@@ -2,7 +2,7 @@
 #import re
 # O(m+n) , where O(m) - pf search
 
-def show(text, substr, shift, count):
+def sho(text, substr, shift, count):
     print(text)
     print(' ' * shift + substr,'\t |', count)
 
@@ -46,7 +46,6 @@ def kmp(text, substr):
             else:
                 break
 
-        show(text, substr, i - j, count)
         if j == m:
             print(f'index {i - m} was found')
             result.append(i - m)
