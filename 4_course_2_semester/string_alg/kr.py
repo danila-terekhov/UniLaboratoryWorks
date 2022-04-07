@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-Q = 7
+Q = 17
 
 def match(i, m, x, p):
-    print("Trying to compare string on index ", i)
+    print("Trying to compare strings on index ", i)
     count = 0
     for j in range(m):
         if x[i+j] == p[j]:
@@ -19,11 +19,15 @@ def get_sigma(s): # (1)
     m = len(s)
     result = 0
     for i in range(m):
-        result = (result + ord(s[i])) % Q
+        result = (result%Q + ord(s[i])%Q) % Q
     return result
 
 def get_sigma_iter(i, m, x, prev): # (2)
-    return (2 * (prev - ((2 ** (m-1)) % Q) * ord(x[i-1])) + ord(x[i - 1 + m])) % Q
+    tmp = 1
+    for i in range(m):
+        tmp = ((tmp % Q) * 2) %  Q
+
+    return ((2 * (((prev%Q) - (tmp * (ord(x[i-1])%Q) %Q) %Q))%Q) + ord(x[i - 1 + m])%Q) % Q
 
 def kr_search(x: str, p: str):
     n = len(x)
@@ -45,5 +49,5 @@ def kr_search(x: str, p: str):
 
 
 substr = "asd"
-text = "asdasdasasd"
+text = "asdasaasasdas"
 print(kr_search(text, substr))
